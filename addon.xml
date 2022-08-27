@@ -10,8 +10,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <website>https://radio-browser.info/</website>
-        <source>https://example.com/source</source>
-        <forum>https://example.com/forum</forum>
+        <source>https://github.com/ArtyIF/plugin.audio.rbb</source>
         <license>GPL-3.0-only</license>
         <news>v0.1.0
             Initial release
