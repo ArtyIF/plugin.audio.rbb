@@ -1,0 +1,27 @@
+<addon id="plugin.audio.rbb" name="RadioBrowser²" provider-name="ArtyIF" version="0.1.0">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+        <import addon="script.module.requests" version="2.27.1"/>
+        <import addon="script.module.simpleplugin3" version="3.0.6"/>
+    </requires>
+    <extension library="addon.py" point="xbmc.python.pluginsource">
+        <provides>audio</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <website>https://radio-browser.info/</website>
+        <source>https://example.com/source</source>
+        <forum>https://example.com/forum</forum>
+        <license>GPL-3.0-only</license>
+        <news>v0.1.0
+            Initial release
+        </news>
+        <assets>
+            <icon>resources/icon.png</icon>
+            <fanart>resources/fanart.png</fanart>
+        </assets>
+        <summary lang="en_GB">A browser for RadioBrowser</summary>
+        <description lang="en_GB">RadioBrowser² (Radio Browser Browser, or Radio Browser Squared) is a music add-on to browse the radio station list on radio-browser.info.[CR]radio-browser.info is a community driven effort (like Wikipedia) with the aim of collecting as many internet radio and TV stations as possible. It's free for all to use, has an open API, and the data is in public domain.</description>
+        <disclaimer lang="en_GB">The developer of this add-on not affiliated with any of radio-browser.info maintainers.</disclaimer>
+    </extension>
+</addon>
