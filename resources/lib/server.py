@@ -58,5 +58,3 @@ def get_appropriate_server():
 def connect():
     global server_url
     server_url = f"https://{get_appropriate_server()}/json"
-    notif = xbmcgui.Dialog()
-    notif.notification("Debug", "Connected, server_url is now " + server_url, time=500)
