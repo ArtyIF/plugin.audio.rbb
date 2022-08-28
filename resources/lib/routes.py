@@ -76,12 +76,17 @@ def get_stations(addon_handle, kind, page, orderby):
     for station in response:
         # TODO: localize language and location. pycountry maybe?
         language = station["language"].split(",")
+        language = [i.title() for i in language]
+
         location = [station["state"], station["country"]]
         tags = station["tags"].split(",")
+
         cleaned_tags = [i for i in language + location + tags if i]
         genre = ", ".join(cleaned_tags)
+
         if station["lastcheckok"] == 0:
-            genre = "[B]Offline![/B]"
+            genre = "[B]Offline![/B] " + genre
+        
         li = xbmcgui.ListItem(station["name"], genre)
 
         li.setInfo(
@@ -97,7 +102,9 @@ def get_stations(addon_handle, kind, page, orderby):
         li.setArt(
             {
                 "thumb": station["favicon"],
+                "poster": station["favicon"],
                 "fanart": station["favicon"],
+                "landscape": station["favicon"],
                 "icon": station["favicon"],
             }
         )
@@ -224,7 +231,7 @@ def get_languages(addon_handle, page):
         li.setInfo(
             "music",
             {
-                "title": category["name"],
+                "title": category["name"].title(),
                 "genre": f"{category['stationcount']} stations",
             },
         )
