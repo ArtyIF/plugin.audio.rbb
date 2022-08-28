@@ -2,7 +2,6 @@
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" version="2.27.1"/>
-        <import addon="script.module.simpleplugin3" version="3.0.6"/>
     </requires>
     <extension library="addon.py" point="xbmc.python.pluginsource">
         <provides>audio</provides>
