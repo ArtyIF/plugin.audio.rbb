@@ -46,7 +46,8 @@ def get_stations(addon_handle, kind, page, orderby, reverse):
     if kind == "all":
         request_url = "/stations"
     response = server.get(
-        request_url, {"offset": page * 50, "limit": 50, "order": orderby, "reverse": reverse}
+        request_url,
+        {"offset": page * 50, "limit": 50, "order": orderby, "reverse": reverse},
     ).json()
 
     station_list = []

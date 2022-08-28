@@ -13,38 +13,47 @@ def main():
     if mode is None:
         routes.root(addon_handle)
     elif mode[0] == "stations":
+        server.connect()
         routes.get_stations(
             addon_handle,
             args["kind"][0],
             args.get("page", [0])[0],
             args.get("orderby", ["votes"])[0],
-            args.get("reverse", ["true"])[0]
+            args.get("reverse", ["true"])[0],
         )
     elif mode[0] == "stations_dir":
         routes.open_stations_directory(addon_handle)
     elif mode[0] == "search_dir":
         routes.open_search_directory(addon_handle)
     elif mode[0] == "countries":
+        server.connect()
         routes.get_countries(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "state_countries":
+        server.connect()
         routes.get_state_countries(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "states":
+        server.connect()
         routes.get_states(
             addon_handle, args.get("state", [""])[0], args.get("page", [0])[0]
         )
     elif mode[0] == "languages":
+        server.connect()
         routes.get_languages(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "tags":
+        server.connect()
         routes.get_tags(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "codecs":
+        server.connect()
         routes.get_codecs(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "listen":
+        server.connect()
         routes.play(addon_handle, args["url"][0], args["uuid"][0])
     elif mode[0] == "search_by_name":
         routes.open_search_by_name(addon_handle)
     elif mode[0] == "search_by_tags":
         routes.open_search_by_tags(addon_handle)
     elif mode[0] == "results":
+        server.connect()
         routes.perform_search(
             addon_handle,
             args.get("kind", ["name"])[0],
@@ -61,6 +70,5 @@ def main():
 
 
 if __name__ == "__main__":
-    server.connect()
     addon_handle = int(sys.argv[1])
     main()
