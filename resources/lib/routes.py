@@ -24,27 +24,23 @@ def root(addon_handle):
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Country")
-    url = utils.build_url(
-        {"mode": "categories", "ls": "countries", "kind": "bycountry"}
-    )
+    url = utils.build_url({"mode": "countries"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by State")
-    url = utils.build_url({"mode": "categories", "ls": "states", "kind": "bystate"})
+    url = utils.build_url({"mode": "statecountries"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Language")
-    url = utils.build_url(
-        {"mode": "categories", "ls": "languages", "kind": "bylanguage"}
-    )
+    url = utils.build_url({"mode": "languages"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Tag")
-    url = utils.build_url({"mode": "categories", "ls": "tags", "kind": "bytag"})
+    url = utils.build_url({"mode": "tags"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Codec")
-    url = utils.build_url({"mode": "categories", "ls": "codecs", "kind": "bycodec"})
+    url = utils.build_url({"mode": "codecs"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("All Stations")
@@ -117,9 +113,8 @@ def get_stations(addon_handle, kind, page, orderby):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_categories(addon_handle, ls, kind, page):
-    page = int(page)
-    response = server.get("/" + ls, {"offset": page * 50, "limit": 50}).json()
+def get_countries(addon_handle):
+    response = server.get("/countries").json()
 
     categories_list = []
     for category in response:
@@ -134,18 +129,10 @@ def get_categories(addon_handle, ls, kind, page):
             },
         )
         url = utils.build_url(
-            {"mode": "stations", "kind": kind + "/" + category["name"]}
+            {"mode": "stations", "kind": "bycountrycodeexact/" + category["iso_3166_1"]}
         )
         categories_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url(
-            {"mode": "categories", "ls": ls, "kind": kind, "page": page + 1}
-        )
-        categories_list.append((url, li, True))
     xbmcplugin.addDirectoryItems(addon_handle, categories_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)

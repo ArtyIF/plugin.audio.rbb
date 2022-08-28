@@ -1,4 +1,5 @@
 import sys
+import xbmcgui
 from urllib.parse import parse_qs
 
 from resources.lib import routes, server
@@ -18,15 +19,17 @@ def main():
             args.get("page", [0])[0],
             args.get("orderby", ["name"])[0],
         )
-    elif mode[0] == "categories":
-        routes.get_categories(
-            addon_handle,
-            args["ls"][0],
-            args["kind"][0],
-            args.get("page", [0])[0],
-        )
+    elif mode[0] == "countries":
+        routes.get_countries(addon_handle)
     elif mode[0] == "listen":
         routes.play(addon_handle, args["url"][0], args["uuid"][0])
+    else:
+        notif = xbmcgui.Dialog()
+        notif.notification(
+            "RadioBrowser² internal error! Tell the developer!",
+            f"Add-on tried to access a non-existent mode: {mode[0]} (all arguments: {args})",
+            xbmcgui.NOTIFICATION_ERROR,
+        )
 
 
 if __name__ == "__main__":
