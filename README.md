@@ -31,7 +31,7 @@ This plugin is still in a very early stage. Here's what it can do and what's pla
 
 ## Install Guide
 1. Clone the repository
-2. Put all the files in an **UNCOMPRESSED** zip file (can be done on Linux and macOS with `zip -0 -r plugin.zip *`, and on Windows compression ratio can be configured in [7-Zip](https://www.7-zip.org/))
+2. Put all the files in an **UNCOMPRESSED** zip file (can be done on Windows compression ratio can be configured in [7-Zip](https://www.7-zip.org/). For Linux and macOS users, there's a file called `build.sh` that creates the zip file and places it in the `build` directory)
 3. In Kodi, go to "Settings" -> "System" -> "Add-ons", enable "Unknown Sources" and agree to the warning
 4. Go back to the "Settings" menu, then to "Add-ons" -> "Install from zip file" and choose the created zip file
 5. After installation, the add-on will be in "Music add-ons"
