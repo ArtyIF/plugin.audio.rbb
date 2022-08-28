@@ -29,11 +29,11 @@ def root(addon_handle):
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by...")
-    url = utils.build_url({"mode": "stations_dir"})
+    url = utils.build_url({"mode": "stations_by"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Search...")
-    url = utils.build_url({"mode": "search_dir"})
+    url = utils.build_url({"mode": "search"})
     menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
@@ -126,7 +126,7 @@ def open_stations_directory(addon_handle):
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("All Stations")
-    url = utils.build_url({"mode": "stations", "kind": "all"})
+    url = utils.build_url({"mode": "stations_sort", "kind": "all"})
     menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
@@ -142,6 +142,89 @@ def open_search_directory(addon_handle):
 
     li = xbmcgui.ListItem("Search by Tags")
     url = utils.build_url({"mode": "search_by_tags"})
+    menu_list.append((url, li, True))
+
+    xbmcplugin.addDirectoryItems(addon_handle, menu_list)
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def open_sort_directory(addon_handle, kind):
+    menu_list = []
+
+    li = xbmcgui.ListItem("Most Voted First")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "votes", "reverse": "true"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Least Voted First")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "votes", "reverse": "false"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Most Listeners First")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "clickcount", "reverse": "true"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Least Listeners First")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "clickcount", "reverse": "false"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Name (A-Z)")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "name", "reverse": "false"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Name (Z-A)")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "name", "reverse": "true"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Bitrate (lowest and undefined first)")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "bitrate", "reverse": "false"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Bitrate (highest first)")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "bitrate", "reverse": "true"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Recently Changed (oldest first)")
+    url = utils.build_url(
+        {
+            "mode": "stations",
+            "kind": kind,
+            "orderby": "changetimestamp",
+            "reverse": "false",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Recently Changed (newest first)")
+    url = utils.build_url(
+        {
+            "mode": "stations",
+            "kind": kind,
+            "orderby": "changetimestamp",
+            "reverse": "true",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Random")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "random", "reverse": "false"}
+    )
     menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
@@ -165,7 +248,10 @@ def get_countries(addon_handle, page):
             },
         )
         url = utils.build_url(
-            {"mode": "stations", "kind": "bycountrycodeexact/" + category["iso_3166_1"]}
+            {
+                "mode": "stations_sort",
+                "kind": "bycountrycodeexact/" + category["iso_3166_1"],
+            }
         )
         countries_list.append((url, li, True))
 
@@ -222,7 +308,7 @@ def get_states(addon_handle, state, page):
         )
         url = utils.build_url(
             # FIXME: sometimes it picks up similarly named states as well, like Bavaria, Germany when the user picked Bavaria, Netherlands
-            {"mode": "stations", "kind": "bystateexact/" + category["name"]}
+            {"mode": "stations_sort", "kind": "bystateexact/" + category["name"]}
         )
         states_list.append((url, li, True))
 
@@ -252,7 +338,7 @@ def get_languages(addon_handle, page):
             },
         )
         url = utils.build_url(
-            {"mode": "stations", "kind": "bylanguageexact/" + category["name"]}
+            {"mode": "stations_sort", "kind": "bylanguageexact/" + category["name"]}
         )
         languages_list.append((url, li, True))
 
@@ -280,7 +366,7 @@ def get_tags(addon_handle, page):
             },
         )
         url = utils.build_url(
-            {"mode": "stations", "kind": "bytagexact/" + category["name"]}
+            {"mode": "stations_sort", "kind": "bytagexact/" + category["name"]}
         )
         tags_list.append((url, li, True))
 
@@ -308,7 +394,7 @@ def get_codecs(addon_handle, page):
             },
         )
         url = utils.build_url(
-            {"mode": "stations", "kind": "bycodecexact/" + category["name"]}
+            {"mode": "stations_sort", "kind": "bycodecexact/" + category["name"]}
         )
         codecs_list.append((url, li, True))
 
@@ -384,6 +470,8 @@ def open_search_by_name(addon_handle):
     keyboard.setHeading("Enter the station name")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
+        server.connect()
+        # TODO: add sorting similar to station lists
         perform_search(addon_handle, "name", keyboard.getText(), 0)
 
 
@@ -392,6 +480,8 @@ def open_search_by_tags(addon_handle):
     keyboard.setHeading("Enter the comma-separated tags")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
+        server.connect()
+        # TODO: add sorting similar to station lists
         perform_search(
             addon_handle,
             "tag",

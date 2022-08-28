@@ -1,16 +1,21 @@
 import socket
 import random
 import requests
+import xbmcgui
 
 headers = {"User-Agent": "RadioBrowser2/0.6.0"}
 server_url = ""
 
 
 def get(path, params={}, **kwargs):
+    if server_url == "":
+        raise ConnectionError("Not connected to server")
     return requests.get(server_url + path, headers=headers, params=params, **kwargs)
 
 
 def post(path, params={}, **kwargs):
+    if server_url == "":
+        raise ConnectionError("Not connected to server")
     return requests.post(server_url + path, headers=headers, params=params, **kwargs)
 
 
@@ -53,3 +58,5 @@ def get_appropriate_server():
 def connect():
     global server_url
     server_url = f"https://{get_appropriate_server()}/json"
+    notif = xbmcgui.Dialog()
+    notif.notification("Debug", "Connected, server_url is now " + server_url, time=500)

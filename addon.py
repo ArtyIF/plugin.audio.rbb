@@ -21,10 +21,12 @@ def main():
             args.get("orderby", ["votes"])[0],
             args.get("reverse", ["true"])[0],
         )
-    elif mode[0] == "stations_dir":
+    elif mode[0] == "stations_by":
         routes.open_stations_directory(addon_handle)
-    elif mode[0] == "search_dir":
+    elif mode[0] == "search":
         routes.open_search_directory(addon_handle)
+    elif mode[0] == "stations_sort":
+        routes.open_sort_directory(addon_handle, args["kind"][0])
     elif mode[0] == "countries":
         server.connect()
         routes.get_countries(addon_handle, args.get("page", [0])[0])

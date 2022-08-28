@@ -20,7 +20,7 @@ This plugin is still in a very early stage. Here's what it can do and what's pla
 - - [x] Language
 - - [x] Tag
 - - [x] Codec
-- [ ] Let the user choose to sort those stations and categories alphabetically or by popularity or some other tag
+- [x] Let the user choose to sort stations
 - [x] Filter states by country
 - [x] Search stations by different things
 - [ ] Add/remove stations to/from Favourites
