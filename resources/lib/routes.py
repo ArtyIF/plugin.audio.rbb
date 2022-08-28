@@ -8,6 +8,10 @@ from resources.lib import server, utils
 def root(addon_handle):
     menu_list = []
 
+    li = xbmcgui.ListItem("Favourites")
+    url = utils.build_url({"mode": "favourites"})
+    # menu_list.append((url, li, True))
+
     li = xbmcgui.ListItem("Most Voted Stations")
     url = utils.build_url({"mode": "stations", "kind": "topvote"})
     menu_list.append((url, li, True))
@@ -24,44 +28,12 @@ def root(addon_handle):
     url = utils.build_url({"mode": "stations", "kind": "lastchange"})
     menu_list.append((url, li, True))
 
-    li = xbmcgui.ListItem("Stations by Country")
-    url = utils.build_url({"mode": "countries"})
+    li = xbmcgui.ListItem("Stations by...")
+    url = utils.build_url({"mode": "stations_dir"})
     menu_list.append((url, li, True))
 
-    li = xbmcgui.ListItem("Stations by State")
-    url = utils.build_url({"mode": "state_countries"})
-    menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Stations by State (A-Z)")
-    url = utils.build_url({"mode": "states"})
-    # menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Stations by Language")
-    url = utils.build_url({"mode": "languages"})
-    menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Stations by Tag")
-    url = utils.build_url({"mode": "tags"})
-    # menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Stations by Codec")
-    url = utils.build_url({"mode": "codecs"})
-    # menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("All Stations")
-    url = utils.build_url({"mode": "stations", "kind": "all"})
-    menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Favourites")
-    url = utils.build_url({"mode": "favourites"})
-    # menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Search by Name")
-    url = utils.build_url({"mode": "search_by_name"})
-    menu_list.append((url, li, True))
-
-    li = xbmcgui.ListItem("Search by Tags")
-    url = utils.build_url({"mode": "search_by_tags"})
+    li = xbmcgui.ListItem("Search...")
+    url = utils.build_url({"mode": "search_dir"})
     menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
@@ -126,6 +98,52 @@ def get_stations(addon_handle, kind, page, orderby):
 
     xbmcplugin.addDirectoryItems(addon_handle, station_list)
     xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def open_stations_directory(addon_handle):
+    menu_list = []
+
+    li = xbmcgui.ListItem("Stations by Country")
+    url = utils.build_url({"mode": "countries"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Stations by State")
+    url = utils.build_url({"mode": "state_countries"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Stations by Language")
+    url = utils.build_url({"mode": "languages"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Stations by Tag")
+    url = utils.build_url({"mode": "tags"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Stations by Codec")
+    url = utils.build_url({"mode": "codecs"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("All Stations")
+    url = utils.build_url({"mode": "stations", "kind": "all"})
+    menu_list.append((url, li, True))
+
+    xbmcplugin.addDirectoryItems(addon_handle, menu_list)
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def open_search_directory(addon_handle):
+    menu_list = []
+
+    li = xbmcgui.ListItem("Search by Name")
+    url = utils.build_url({"mode": "search_by_name"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Search by Tags")
+    url = utils.build_url({"mode": "search_by_tags"})
+    menu_list.append((url, li, True))
+
+    xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
 
 

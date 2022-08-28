@@ -19,6 +19,10 @@ def main():
             args.get("page", [0])[0],
             args.get("orderby", ["name"])[0],
         )
+    elif mode[0] == "stations_dir":
+        routes.open_stations_directory(addon_handle)
+    elif mode[0] == "search_dir":
+        routes.open_search_directory(addon_handle)
     elif mode[0] == "countries":
         routes.get_countries(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "state_countries":
