@@ -14,14 +14,15 @@ This plugin is still in a very early stage. Here's what it can do and what's pla
 - [x] Display station icon
 - [x] Display station tags, location and language (all in Genre section for now)
 - [x] Play the stations
-- [ ] Add/remove stations to/from Favourites
-- [ ] List stations by:
-- - [ ] Country
-- - [ ] State
-- - [ ] Language
-- - [ ] Tag
-- - [ ] Codec
+- [x] List stations by:
+- - [x] Country
+- - [x] State
+- - [x] Language
+- - [x] Tag
+- - [x] Codec
+- [ ] Sort those stations and categories alphabetically or by popularity or some other tag
 - [ ] Search stations by different things
+- [ ] Add/remove stations to/from Favourites
 - [ ] Localization:
 - - [ ] Of the main interface
 - - [ ] Of locations and countries
