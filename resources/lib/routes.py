@@ -242,6 +242,68 @@ def get_languages(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
+def get_tags(addon_handle, page):
+    page = int(page)
+    response = server.get(f"/tags", {"offset": page * 50, "limit": 50}).json()
+
+    tags_list = []
+    for category in response:
+        li = xbmcgui.ListItem(category["name"])
+
+        li.setInfo(
+            "music",
+            {
+                "title": category["name"],
+                "genre": f"{category['stationcount']} stations",
+            },
+        )
+        url = utils.build_url(
+            {"mode": "stations", "kind": "bytagexact/" + category["name"]}
+        )
+        tags_list.append((url, li, True))
+
+    if len(response) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "tags", "page": page + 1})
+        tags_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, tags_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def get_codecs(addon_handle, page):
+    page = int(page)
+    response = server.get(f"/codecs", {"offset": page * 50, "limit": 50}).json()
+
+    codecs_list = []
+    for category in response:
+        li = xbmcgui.ListItem(category["name"])
+
+        li.setInfo(
+            "music",
+            {
+                "title": category["name"],
+                "genre": f"{category['stationcount']} stations",
+            },
+        )
+        url = utils.build_url(
+            {"mode": "stations", "kind": "bycodecexact/" + category["name"]}
+        )
+        codecs_list.append((url, li, True))
+
+    if len(response) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "languages", "page": page + 1})
+        codecs_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, codecs_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
 def play(addon_handle, path, uuid):
     li = xbmcgui.ListItem(path=path)
     click_counter_result = server.post("/url/" + uuid).json()
