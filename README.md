@@ -36,4 +36,4 @@ This plugin is still in a very early stage. Here's what it can do and what's pla
 4. Go back to the "Settings" menu, then to "Add-ons" -> "Install from zip file" and choose the created zip file
 5. After installation, the add-on will be in "Music add-ons"
 
-After the extension is ready enough, I will generate the zip files myself, as well as upload it to Kodi repositories.
+From v0.5.0 onwards, I include the pre-zipped add-on in the releases. I also plan to get this on the Kodi official repo someday.
