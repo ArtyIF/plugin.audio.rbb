@@ -1,52 +1,12 @@
-from json import JSONDecodeError
 import os
 import sys
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
 from datetime import datetime
-
-import socket
-import random
-import requests
 from urllib.parse import urlencode, parse_qs
 
-headers = {"User-Agent": "RadioBrowser2/0.2.0"}
-
-# from https://api.radio-browser.info/examples/serverlist_python3.py
-def get_radiobrowser_base_urls():
-    hosts = []
-    ips = socket.getaddrinfo("all.api.radio-browser.info", 80, 0, 0, socket.IPPROTO_TCP)
-    for ip_tuple in ips:
-        ip = ip_tuple[4][0]
-
-        host_addr = socket.gethostbyaddr(ip)
-        if host_addr[0] not in hosts:
-            hosts.append(host_addr[0])
-
-    hosts.sort()
-    return hosts
-
-
-def get_appropriate_server():
-    # TODO: if you remove the return below it will repeatedly try to connect to that server, after which it'll raise an exception
-    # TODO: enable connecting to other servers
-    return "de1.api.radio-browser.info"
-    servers = get_radiobrowser_base_urls()
-    for server_base in servers:
-        uri = f"https://{server_base}/json/stats"
-
-        try:
-            data = requests.get(uri, headers=headers)
-            if data.status_code == 200:
-                return server_base
-            else:
-                raise ConnectionError(
-                    f"requests.get({uri}) returned status code {data.status_code}"
-                )
-        except ConnectionError:
-            continue
-    raise ConnectionError("Could not connect to any of radio-browser.info servers")
+from resources.lib import server
 
 
 def build_url(query):
@@ -99,24 +59,24 @@ def root():
 
     li = xbmcgui.ListItem("Favourites")
     url = build_url({"mode": "favourites"})
-    #menu_list.append((url, li, True))
+    # menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Search")
     url = build_url({"mode": "search"})
-    #menu_list.append((url, li, True))
+    # menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_stations(kind, page):
+def get_stations(kind, page, orderby):
     page = int(page)
-    request_url = server_url + f"/stations/{kind}"
+    request_url = f"/stations/{kind}"
     if kind == "all":
-        request_url = server_url + "/stations"
-    response = requests.get(
-        request_url, headers=headers, params={"offset": page * 50, "limit": 50}
+        request_url = "/stations"
+    response = server.get(
+        request_url, {"offset": page * 50, "limit": 50, "order": orderby}
     ).json()
 
     station_list = []
@@ -137,7 +97,7 @@ def get_stations(kind, page):
                 "size": station["bitrate"],
                 "genre": genre,
                 "playcount": station["clickcount"],
-            }
+            },
         )
         li.setArt(
             {
@@ -155,25 +115,17 @@ def get_stations(kind, page):
     if len(response) == 50:
         # TODO: override the titlebar to indicate the page and kind if possible
         li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo(
-            "music",
-            {
-                "title": "Next Page",
-                "genre": f"Page {page+2}"
-            }
-        )
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
         url = build_url({"mode": "stations", "kind": kind, "page": page + 1})
         station_list.append((url, li, True))
     xbmcplugin.addDirectoryItems(addon_handle, station_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
 
+
 def get_categories(ls, kind, page):
     page = int(page)
-    request_url = server_url + f"/{ls}"
-    response = requests.get(
-        request_url, headers=headers, params={"offset": page * 50, "limit": 50}
-    ).json()
+    response = server.get("/" + ls, {"offset": page * 50, "limit": 50}).json()
 
     categories_list = []
     for category in response:
@@ -184,25 +136,19 @@ def get_categories(ls, kind, page):
             {
                 "title": category["name"],
                 "count": category["stationcount"],
-                "genre": f"{category['stationcount']} stations"
-            }
+                "genre": f"{category['stationcount']} stations",
+            },
         )
-        url = build_url(
-            {"mode": "stations", "kind": kind + "/" + category['name']}
-        )
+        url = build_url({"mode": "stations", "kind": kind + "/" + category["name"]})
         categories_list.append((url, li, True))
 
     if len(response) == 50:
         # TODO: override the titlebar to indicate the page and kind if possible
         li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo(
-            "music",
-            {
-                "title": "Next Page",
-                "genre": f"Page {page+2}"
-            }
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = build_url(
+            {"mode": "categories", "ls": ls, "kind": kind, "page": page + 1}
         )
-        url = build_url({"mode": "categories", "ls": ls, "kind": kind, "page": page + 1})
         categories_list.append((url, li, True))
     xbmcplugin.addDirectoryItems(addon_handle, categories_list)
     xbmcplugin.setContent(addon_handle, "songs")
@@ -211,9 +157,7 @@ def get_categories(ls, kind, page):
 
 def play(path, uuid):
     li = xbmcgui.ListItem(path=path)
-    click_counter_result = requests.get(
-        server_url + "/url/" + uuid, headers=headers
-    ).json()
+    click_counter_result = server.post("/url/" + uuid).json()
     xbmcplugin.setResolvedUrl(addon_handle, click_counter_result.get("ok", False), li)
 
 
@@ -225,15 +169,15 @@ def main():
     if mode is None:
         root()
     elif mode[0] == "stations":
-        get_stations(args["kind"][0], args.get("page", [0])[0])
+        get_stations(
+            args["kind"][0], args.get("page", [0])[0], args.get("orderby", ["name"])[0]
+        )
     elif mode[0] == "categories":
         get_categories(args["ls"][0], args["kind"][0], args.get("page", [0])[0])
     elif mode[0] == "listen":
         play(args["url"][0], args["uuid"][0])
 
-
 if __name__ == "__main__":
-    server_name = get_appropriate_server()
-    server_url = f"https://{server_name}/json"
+    server.connect()
     addon_handle = int(sys.argv[1])
     main()
