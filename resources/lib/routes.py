@@ -184,7 +184,7 @@ def get_state_countries(addon_handle, page):
         # TODO: override the titlebar to indicate the page and kind if possible
         li = xbmcgui.ListItem(f"Next Page")
         li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "countries", "page": page + 1})
+        url = utils.build_url({"mode": "state_countries", "page": page + 1})
         state_countries_list.append((url, li, True))
     xbmcplugin.addDirectoryItems(addon_handle, state_countries_list)
     xbmcplugin.setContent(addon_handle, "songs")
