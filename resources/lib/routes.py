@@ -40,17 +40,18 @@ def root(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_stations(addon_handle, kind, page, orderby):
+def get_stations(addon_handle, kind, page, orderby, reverse):
     page = int(page)
     request_url = f"/stations/{kind}"
     if kind == "all":
         request_url = "/stations"
     response = server.get(
-        request_url, {"offset": page * 50, "limit": 50, "order": orderby}
+        request_url, {"offset": page * 50, "limit": 50, "order": orderby, "reverse": reverse}
     ).json()
 
     station_list = []
     for station in response:
+        votes = [f"[B]{station['votes']} votes[/B]"]
         # TODO: localize language and location. pycountry maybe?
         language = station["language"].split(",")
         language = [i.title() for i in language]
@@ -58,7 +59,7 @@ def get_stations(addon_handle, kind, page, orderby):
         location = [station["state"], station["country"]]
         tags = station["tags"].split(",")
 
-        cleaned_tags = [i for i in language + location + tags if i]
+        cleaned_tags = [i for i in votes + language + location + tags if i]
         genre = ", ".join(cleaned_tags)
 
         if station["lastcheckok"] == 0:
@@ -73,7 +74,6 @@ def get_stations(addon_handle, kind, page, orderby):
                 "tracknumber": (page * 50) + len(station_list) + 1,
                 "size": station["bitrate"],
                 "genre": genre,
-                "playcount": station["clickcount"],
             },
         )
         li.setArt(

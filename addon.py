@@ -18,6 +18,7 @@ def main():
             args["kind"][0],
             args.get("page", [0])[0],
             args.get("orderby", ["votes"])[0],
+            args.get("reverse", ["true"])[0]
         )
     elif mode[0] == "stations_dir":
         routes.open_stations_directory(addon_handle)
