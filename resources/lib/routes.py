@@ -60,7 +60,6 @@ def root(addon_handle):
     # menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
-    xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
 
 
@@ -159,7 +158,10 @@ def get_state_countries(addon_handle, page):
 
         li.setInfo(
             "music",
-            {"title": category["name"]},
+            {
+                "title": category["name"],
+                "genre": f"{category['stationcount']} total stations", # TODO: replace with state count if possible
+            },
         )
         url = utils.build_url({"mode": "states", "state": category["name"]})
         state_countries_list.append((url, li, True))
