@@ -12,9 +12,6 @@
         <website>https://radio-browser.info/</website>
         <source>https://github.com/ArtyIF/plugin.audio.rbb</source>
         <license>GPL-3.0-only</license>
-        <news>v0.1.0
-            Initial release
-        </news>
         <assets>
             <icon>resources/icon.png</icon>
             <fanart>resources/fanart.png</fanart>

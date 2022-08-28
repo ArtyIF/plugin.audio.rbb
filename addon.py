@@ -21,7 +21,7 @@ def main():
         )
     elif mode[0] == "countries":
         routes.get_countries(addon_handle, args.get("page", [0])[0])
-    elif mode[0] == "statecountries":
+    elif mode[0] == "state_countries":
         routes.get_state_countries(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "states":
         routes.get_states(
@@ -35,8 +35,10 @@ def main():
         routes.get_codecs(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "listen":
         routes.play(addon_handle, args["url"][0], args["uuid"][0])
-    elif mode[0] == "search":
-        routes.open_search(addon_handle)
+    elif mode[0] == "search_by_name":
+        routes.open_search_by_name(addon_handle)
+    elif mode[0] == "search_by_tags":
+        routes.open_search_by_tags(addon_handle)
     elif mode[0] == "results":
         routes.perform_search(
             addon_handle,

@@ -29,7 +29,7 @@ def root(addon_handle):
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by State (by Countries)")
-    url = utils.build_url({"mode": "statecountries"})
+    url = utils.build_url({"mode": "state_countries"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by State (A-Z)")
@@ -42,7 +42,7 @@ def root(addon_handle):
 
     li = xbmcgui.ListItem("Stations by Tag")
     url = utils.build_url({"mode": "tags"})
-    menu_list.append((url, li, True))
+    #menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Codec")
     url = utils.build_url({"mode": "codecs"})
@@ -56,8 +56,12 @@ def root(addon_handle):
     url = utils.build_url({"mode": "favourites"})
     # menu_list.append((url, li, True))
 
-    li = xbmcgui.ListItem("Search")
-    url = utils.build_url({"mode": "search"})
+    li = xbmcgui.ListItem("Search by Name")
+    url = utils.build_url({"mode": "search_by_name"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Search by Tags")
+    url = utils.build_url({"mode": "search_by_tags"})
     menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
@@ -316,12 +320,11 @@ def get_codecs(addon_handle, page):
 
 def perform_search(addon_handle, kind, search_text, page):
     page = int(page)
-    name_response = server.get("/stations/search", {
-        kind: search_text,
-        "offset": page * 50, "limit": 50
-    }).json()
+    name_response = server.get(
+        "/stations/search", {kind: search_text, "offset": page * 50, "limit": 50}
+    ).json()
 
-    name_results_list = []
+    results_list = []
     for station in name_response:
         language = station["language"].split(",")
         language = [i.title() for i in language]
@@ -341,7 +344,7 @@ def perform_search(addon_handle, kind, search_text, page):
             "music",
             {
                 "title": station["name"],
-                "tracknumber": (page * 50) + len(name_results_list) + 1,
+                "tracknumber": (page * 50) + len(results_list) + 1,
                 "size": station["bitrate"],
                 "genre": genre,
                 "playcount": station["clickcount"],
@@ -360,25 +363,45 @@ def perform_search(addon_handle, kind, search_text, page):
         url = utils.build_url(
             {"mode": "listen", "url": station["url"], "uuid": station["stationuuid"]}
         )
-        name_results_list.append((url, li, False))
+        results_list.append((url, li, False))
 
-    if len(name_results_list) == 50:
+    if len(results_list) == 50:
         # TODO: override the titlebar to indicate the page and kind if possible
         li = xbmcgui.ListItem(f"Next Page")
         li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "results", "search_text": search_text, "page": page + 1})
-        name_results_list.append((url, li, True))
-    xbmcplugin.addDirectoryItems(addon_handle, name_results_list)
+        url = utils.build_url(
+            {
+                "mode": "results",
+                "kind": kind,
+                "search_text": search_text,
+                "page": page + 1,
+            }
+        )
+        results_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, results_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_search(addon_handle):
+def open_search_by_name(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading("Enter your search query")
+    keyboard.setHeading("Enter the station name")
     keyboard.doModal()
     if keyboard.isConfirmed():
-        perform_search(addon_handle, keyboard.getText(), 0)
+        perform_search(addon_handle, "name", keyboard.getText(), 0)
+
+
+def open_search_by_tags(addon_handle):
+    keyboard = xbmc.Keyboard()
+    keyboard.setHeading("Enter the comma-separated tags")
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        perform_search(
+            addon_handle,
+            "tag",
+            ",".join([i.strip() for i in keyboard.getText().split(",")]),
+            0,
+        )
 
 
 def play(addon_handle, path, uuid):
