@@ -1,5 +1,5 @@
 import sys
-from urllib.parse import urlencode, parse_qs
+from urllib.parse import parse_qs
 
 from resources.lib import routes, server
 
