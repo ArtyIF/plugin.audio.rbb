@@ -20,7 +20,17 @@ def main():
             args.get("orderby", ["name"])[0],
         )
     elif mode[0] == "countries":
-        routes.get_countries(addon_handle)
+        routes.get_countries(addon_handle, args.get("page", [0])[0])
+    elif mode[0] == "statecountries":
+        routes.get_state_countries(addon_handle, args.get("page", [0])[0])
+    elif mode[0] == "states":
+        routes.get_states(
+            addon_handle, args.get("state", [""])[0], args.get("page", [0])[0]
+        )
+    elif mode[0] == "languages":
+        routes.get_languages(
+            addon_handle, args.get("page", [0])[0]
+        )
     elif mode[0] == "listen":
         routes.play(addon_handle, args["url"][0], args["uuid"][0])
     else:

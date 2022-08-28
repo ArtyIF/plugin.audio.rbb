@@ -27,8 +27,12 @@ def root(addon_handle):
     url = utils.build_url({"mode": "countries"})
     menu_list.append((url, li, True))
 
-    li = xbmcgui.ListItem("Stations by State")
+    li = xbmcgui.ListItem("Stations by State (by Countries)")
     url = utils.build_url({"mode": "statecountries"})
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Stations by State (A-Z)")
+    url = utils.build_url({"mode": "states"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Language")
@@ -113,10 +117,11 @@ def get_stations(addon_handle, kind, page, orderby):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_countries(addon_handle):
-    response = server.get("/countries").json()
+def get_countries(addon_handle, page):
+    page = int(page)
+    response = server.get("/countries", {"offset": page * 50, "limit": 50}).json()
 
-    categories_list = []
+    countries_list = []
     for category in response:
         li = xbmcgui.ListItem(category["name"])
 
@@ -131,9 +136,106 @@ def get_countries(addon_handle):
         url = utils.build_url(
             {"mode": "stations", "kind": "bycountrycodeexact/" + category["iso_3166_1"]}
         )
-        categories_list.append((url, li, True))
+        countries_list.append((url, li, True))
 
-    xbmcplugin.addDirectoryItems(addon_handle, categories_list)
+    if len(response) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "countries", "page": page + 1})
+        countries_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, countries_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def get_state_countries(addon_handle, page):
+    page = int(page)
+    response = server.get("/countries", {"offset": page * 50, "limit": 50}).json()
+
+    state_countries_list = []
+    for category in response:
+        li = xbmcgui.ListItem(category["name"])
+
+        li.setInfo(
+            "music",
+            {"title": category["name"]},
+        )
+        url = utils.build_url({"mode": "states", "state": category["name"]})
+        state_countries_list.append((url, li, True))
+
+    if len(response) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "countries", "page": page + 1})
+        state_countries_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, state_countries_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def get_states(addon_handle, state, page):
+    page = int(page)
+    response = server.get(
+        f"/states/{state}/", {"offset": page * 50, "limit": 50}
+    ).json()
+
+    states_list = []
+    for category in response:
+        li = xbmcgui.ListItem(category["name"])
+
+        li.setInfo(
+            "music",
+            {
+                "title": category["name"],
+                "genre": f"{category['stationcount']} stations",
+            },
+        )
+        url = utils.build_url(
+            # FIXME: sometimes it picks up similarly named states as well, like Bavaria, Germany when the user picked Bavaria, Netherlands
+            {"mode": "stations", "kind": "bystateexact/" + category["name"]}
+        )
+        states_list.append((url, li, True))
+
+    if len(response) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "states", "state": state, "page": page + 1})
+        states_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, states_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def get_languages(addon_handle, page):
+    page = int(page)
+    response = server.get(f"/languages", {"offset": page * 50, "limit": 50}).json()
+
+    languages_list = []
+    for category in response:
+        li = xbmcgui.ListItem(category["name"])
+
+        li.setInfo(
+            "music",
+            {
+                "title": category["name"],
+                "genre": f"{category['stationcount']} stations",
+            },
+        )
+        url = utils.build_url(
+            {"mode": "stations", "kind": "bylanguageexact/" + category["name"]}
+        )
+        languages_list.append((url, li, True))
+
+    if len(response) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "languages", "page": page + 1})
+        languages_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, languages_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
 

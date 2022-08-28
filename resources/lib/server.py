@@ -2,7 +2,7 @@ import socket
 import random
 import requests
 
-headers = {"User-Agent": "RadioBrowser2/0.2.0"}
+headers = {"User-Agent": "RadioBrowser2/0.4.0"}
 server_url = ""
 
 
@@ -30,7 +30,7 @@ def get_radiobrowser_base_urls():
 
 
 def get_appropriate_server():
-    # TODO: if you remove the return below it will repeatedly try to connect to that server, after which it'll raise an exception
+    # FIXME: if you remove the return below it will repeatedly try to connect to that server, after which it'll raise an exception
     # TODO: enable connecting to other servers
     return "de1.api.radio-browser.info"
     servers = get_radiobrowser_base_urls()
@@ -38,7 +38,7 @@ def get_appropriate_server():
         uri = f"https://{server_base}/json/stats"
 
         try:
-            data = requests.get(uri, headers=headers)
+            data = get(uri)
             if data.status_code == 200:
                 return server_base
             else:
