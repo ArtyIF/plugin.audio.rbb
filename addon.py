@@ -17,7 +17,7 @@ def main():
             addon_handle,
             args["kind"][0],
             args.get("page", [0])[0],
-            args.get("orderby", ["name"])[0],
+            args.get("orderby", ["votes"])[0],
         )
     elif mode[0] == "stations_dir":
         routes.open_stations_directory(addon_handle)
