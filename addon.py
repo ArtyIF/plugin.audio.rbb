@@ -28,19 +28,22 @@ def main():
             addon_handle, args.get("state", [""])[0], args.get("page", [0])[0]
         )
     elif mode[0] == "languages":
-        routes.get_languages(
-            addon_handle, args.get("page", [0])[0]
-        )
+        routes.get_languages(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "tags":
-        routes.get_tags(
-            addon_handle, args.get("page", [0])[0]
-        )
+        routes.get_tags(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "codecs":
-        routes.get_codecs(
-            addon_handle, args.get("page", [0])[0]
-        )
+        routes.get_codecs(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "listen":
         routes.play(addon_handle, args["url"][0], args["uuid"][0])
+    elif mode[0] == "search":
+        routes.open_search(addon_handle)
+    elif mode[0] == "results":
+        routes.perform_search(
+            addon_handle,
+            args.get("kind", ["name"])[0],
+            args["search_text"][0],
+            args.get("page", [0])[0],
+        )
     else:
         notif = xbmcgui.Dialog()
         notif.notification(

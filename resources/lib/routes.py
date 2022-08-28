@@ -1,3 +1,4 @@
+import xbmc
 import xbmcgui
 import xbmcplugin
 
@@ -45,7 +46,7 @@ def root(addon_handle):
 
     li = xbmcgui.ListItem("Stations by Codec")
     url = utils.build_url({"mode": "codecs"})
-    menu_list.append((url, li, True))
+    # menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("All Stations")
     url = utils.build_url({"mode": "stations", "kind": "all"})
@@ -57,7 +58,7 @@ def root(addon_handle):
 
     li = xbmcgui.ListItem("Search")
     url = utils.build_url({"mode": "search"})
-    # menu_list.append((url, li, True))
+    menu_list.append((url, li, True))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
@@ -86,7 +87,7 @@ def get_stations(addon_handle, kind, page, orderby):
 
         if station["lastcheckok"] == 0:
             genre = "[B]Offline![/B] " + genre
-        
+
         li = xbmcgui.ListItem(station["name"], genre)
 
         li.setInfo(
@@ -169,7 +170,7 @@ def get_state_countries(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": f"{category['stationcount']} total stations", # TODO: replace with state count if possible
+                "genre": f"{category['stationcount']} total stations",  # TODO: replace with state count if possible
             },
         )
         url = utils.build_url({"mode": "states", "state": category["name"]})
@@ -222,11 +223,11 @@ def get_states(addon_handle, state, page):
 
 def get_languages(addon_handle, page):
     page = int(page)
-    response = server.get(f"/languages", {"offset": page * 50, "limit": 50}).json()
+    response = server.get("/languages", {"offset": page * 50, "limit": 50}).json()
 
     languages_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"])
+        li = xbmcgui.ListItem(category["name"].title())
 
         li.setInfo(
             "music",
@@ -253,7 +254,7 @@ def get_languages(addon_handle, page):
 
 def get_tags(addon_handle, page):
     page = int(page)
-    response = server.get(f"/tags", {"offset": page * 50, "limit": 50}).json()
+    response = server.get("/tags", {"offset": page * 50, "limit": 50}).json()
 
     tags_list = []
     for category in response:
@@ -284,7 +285,7 @@ def get_tags(addon_handle, page):
 
 def get_codecs(addon_handle, page):
     page = int(page)
-    response = server.get(f"/codecs", {"offset": page * 50, "limit": 50}).json()
+    response = server.get("/codecs", {"offset": page * 50, "limit": 50}).json()
 
     codecs_list = []
     for category in response:
@@ -311,6 +312,73 @@ def get_codecs(addon_handle, page):
     xbmcplugin.addDirectoryItems(addon_handle, codecs_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
+
+
+def perform_search(addon_handle, kind, search_text, page):
+    page = int(page)
+    name_response = server.get("/stations/search", {
+        kind: search_text,
+        "offset": page * 50, "limit": 50
+    }).json()
+
+    name_results_list = []
+    for station in name_response:
+        language = station["language"].split(",")
+        language = [i.title() for i in language]
+
+        location = [station["state"], station["country"]]
+        tags = station["tags"].split(",")
+
+        cleaned_tags = [i for i in language + location + tags if i]
+        genre = ", ".join(cleaned_tags)
+
+        if station["lastcheckok"] == 0:
+            genre = "[B]Offline![/B] " + genre
+
+        li = xbmcgui.ListItem(station["name"], genre)
+
+        li.setInfo(
+            "music",
+            {
+                "title": station["name"],
+                "tracknumber": (page * 50) + len(name_results_list) + 1,
+                "size": station["bitrate"],
+                "genre": genre,
+                "playcount": station["clickcount"],
+            },
+        )
+        li.setArt(
+            {
+                "thumb": station["favicon"],
+                "poster": station["favicon"],
+                "fanart": station["favicon"],
+                "landscape": station["favicon"],
+                "icon": station["favicon"],
+            }
+        )
+        li.setProperty("IsPlayable", "true")
+        url = utils.build_url(
+            {"mode": "listen", "url": station["url"], "uuid": station["stationuuid"]}
+        )
+        name_results_list.append((url, li, False))
+
+    if len(name_results_list) == 50:
+        # TODO: override the titlebar to indicate the page and kind if possible
+        li = xbmcgui.ListItem(f"Next Page")
+        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
+        url = utils.build_url({"mode": "results", "search_text": search_text, "page": page + 1})
+        name_results_list.append((url, li, True))
+    xbmcplugin.addDirectoryItems(addon_handle, name_results_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def open_search(addon_handle):
+    keyboard = xbmc.Keyboard()
+    keyboard.setHeading("Enter your search query")
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        perform_search(addon_handle, keyboard.getText(), 0)
 
 
 def play(addon_handle, path, uuid):
