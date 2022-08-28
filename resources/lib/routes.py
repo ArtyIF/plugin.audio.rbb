@@ -28,13 +28,13 @@ def root(addon_handle):
     url = utils.build_url({"mode": "countries"})
     menu_list.append((url, li, True))
 
-    li = xbmcgui.ListItem("Stations by State (by Countries)")
+    li = xbmcgui.ListItem("Stations by State")
     url = utils.build_url({"mode": "state_countries"})
     menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by State (A-Z)")
     url = utils.build_url({"mode": "states"})
-    menu_list.append((url, li, True))
+    # menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Language")
     url = utils.build_url({"mode": "languages"})
@@ -42,7 +42,7 @@ def root(addon_handle):
 
     li = xbmcgui.ListItem("Stations by Tag")
     url = utils.build_url({"mode": "tags"})
-    #menu_list.append((url, li, True))
+    # menu_list.append((url, li, True))
 
     li = xbmcgui.ListItem("Stations by Codec")
     url = utils.build_url({"mode": "codecs"})
