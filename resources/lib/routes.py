@@ -119,12 +119,11 @@ def get_stations(addon_handle, kind, page, orderby):
         )
         station_list.append((url, li, False))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "stations", "kind": kind, "page": page + 1})
-        station_list.append((url, li, True))
+    station_list.append(
+        utils.next_page_item(response, "stations", page, {"kind": kind})
+    )
+    station_list = [i for i in station_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, station_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -151,12 +150,9 @@ def get_countries(addon_handle, page):
         )
         countries_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "countries", "page": page + 1})
-        countries_list.append((url, li, True))
+    countries_list.append(utils.next_page_item(response, "countries", page))
+    countries_list = [i for i in countries_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, countries_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -180,12 +176,9 @@ def get_state_countries(addon_handle, page):
         url = utils.build_url({"mode": "states", "state": category["name"]})
         state_countries_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "state_countries", "page": page + 1})
-        state_countries_list.append((url, li, True))
+    state_countries_list.append(utils.next_page_item(response, "state_countries", page))
+    state_countries_list = [i for i in state_countries_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, state_countries_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -214,12 +207,11 @@ def get_states(addon_handle, state, page):
         )
         states_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "states", "state": state, "page": page + 1})
-        states_list.append((url, li, True))
+    states_list.append(
+        utils.next_page_item(response, "countries", page, {"state": state})
+    )
+    states_list = [i for i in states_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, states_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -245,12 +237,9 @@ def get_languages(addon_handle, page):
         )
         languages_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "languages", "page": page + 1})
-        languages_list.append((url, li, True))
+    languages_list.append(utils.next_page_item(response, "languages", page))
+    languages_list = [i for i in languages_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, languages_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -276,12 +265,9 @@ def get_tags(addon_handle, page):
         )
         tags_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "tags", "page": page + 1})
-        tags_list.append((url, li, True))
+    tags_list.append(utils.next_page_item(response, "tags", page))
+    tags_list = [i for i in tags_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, tags_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -307,12 +293,9 @@ def get_codecs(addon_handle, page):
         )
         codecs_list.append((url, li, True))
 
-    if len(response) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url({"mode": "languages", "page": page + 1})
-        codecs_list.append((url, li, True))
+    codecs_list.append(utils.next_page_item(response, "codecs", page))
+    codecs_list = [i for i in codecs_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, codecs_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -320,12 +303,12 @@ def get_codecs(addon_handle, page):
 
 def perform_search(addon_handle, kind, search_text, page):
     page = int(page)
-    name_response = server.get(
+    response = server.get(
         "/stations/search", {kind: search_text, "offset": page * 50, "limit": 50}
     ).json()
 
     results_list = []
-    for station in name_response:
+    for station in response:
         language = station["language"].split(",")
         language = [i.title() for i in language]
 
@@ -365,19 +348,13 @@ def perform_search(addon_handle, kind, search_text, page):
         )
         results_list.append((url, li, False))
 
-    if len(results_list) == 50:
-        # TODO: override the titlebar to indicate the page and kind if possible
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {page+2}"})
-        url = utils.build_url(
-            {
-                "mode": "results",
-                "kind": kind,
-                "search_text": search_text,
-                "page": page + 1,
-            }
+    results_list.append(
+        utils.next_page_item(
+            response, "results", page, {"kind": kind, "search_text": search_text}
         )
-        results_list.append((url, li, True))
+    )
+    results_list = [i for i in results_list if i]
+
     xbmcplugin.addDirectoryItems(addon_handle, results_list)
     xbmcplugin.setContent(addon_handle, "songs")
     xbmcplugin.endOfDirectory(addon_handle)
@@ -387,7 +364,7 @@ def open_search_by_name(addon_handle):
     keyboard = xbmc.Keyboard()
     keyboard.setHeading("Enter the station name")
     keyboard.doModal()
-    if keyboard.isConfirmed():
+    if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         perform_search(addon_handle, "name", keyboard.getText(), 0)
 
 
@@ -395,7 +372,7 @@ def open_search_by_tags(addon_handle):
     keyboard = xbmc.Keyboard()
     keyboard.setHeading("Enter the comma-separated tags")
     keyboard.doModal()
-    if keyboard.isConfirmed():
+    if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         perform_search(
             addon_handle,
             "tag",
