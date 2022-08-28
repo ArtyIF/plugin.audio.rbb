@@ -80,6 +80,8 @@ def get_stations(addon_handle, kind, page, orderby):
         tags = station["tags"].split(",")
         cleaned_tags = [i for i in language + location + tags if i]
         genre = ", ".join(cleaned_tags)
+        if station["lastcheckok"] == 0:
+            genre = "[B]Offline![/B]"
         li = xbmcgui.ListItem(station["name"], genre)
 
         li.setInfo(
