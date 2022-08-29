@@ -2,7 +2,7 @@ import socket
 import random
 import requests
 
-headers = {"User-Agent": "RadioBrowser2/0.6.1"}
+headers = {"User-Agent": "RadioBrowser2/0.6.2"}
 server_url = ""
 
 
