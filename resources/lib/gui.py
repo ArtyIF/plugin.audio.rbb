@@ -71,46 +71,46 @@ def sort_menu(mode, **kwargs):
 
     query = {"orderby": "votes", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Most Voted First", mode, query))
+    menu_list.append(directory_item("Most Voted First", mode, **query))
 
     query = {"orderby": "votes", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Least Voted First", mode, query))
+    menu_list.append(directory_item("Least Voted First", mode, **query))
 
     query = {"orderby": "clickcount", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Most Listeners First", mode, query))
+    menu_list.append(directory_item("Most Listeners First", mode, **query))
 
     query = {"orderby": "clickcount", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Least Listeners First", mode, query))
+    menu_list.append(directory_item("Least Listeners First", mode, **query))
 
     query = {"orderby": "name", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("A-Z", mode, query))
+    menu_list.append(directory_item("A-Z", mode, **query))
 
     query = {"orderby": "name", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Z-A", mode, query))
+    menu_list.append(directory_item("Z-A", mode, **query))
 
     query = {"orderby": "bitrate", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Highest Bitrate First", mode, query))
+    menu_list.append(directory_item("Highest Bitrate First", mode, **query))
 
     query = {"orderby": "bitrate", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Lowest/Undefined Bitrate First", mode, query))
+    menu_list.append(directory_item("Lowest/Undefined Bitrate First", mode, **query))
 
     query = {"orderby": "changetimestamp", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Oldest Change First", mode, query))
+    menu_list.append(directory_item("Oldest Change First", mode, **query))
 
     query = {"orderby": "changetimestamp", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Newest Change First", mode, query))
+    menu_list.append(directory_item("Newest Change First", mode, **query))
 
     query = {"orderby": "random", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Random", mode, query))
+    menu_list.append(directory_item("Random", mode, **query))
 
     return menu_list
