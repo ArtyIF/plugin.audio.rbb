@@ -56,6 +56,8 @@ def main():
         routes.open_search_by_tags(addon_handle)
     elif mode[0] == "search_sort":
         routes.open_search_sort_directory(addon_handle, args["kind"][0], args["search_text"][0])
+    elif mode[0] == "favourites":
+        routes.get_favourite_stations(addon_handle)
     elif mode[0] == "results":
         server.connect()
         routes.perform_search(

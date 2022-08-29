@@ -343,6 +343,10 @@ def open_search_by_tags(addon_handle):
         )
 
 
+def get_favourite_stations(addon_handle):
+    pass
+
+
 def play(addon_handle, path, uuid):
     li = xbmcgui.ListItem(path=path)
     click_counter_result = server.post("/url/" + uuid).json()
