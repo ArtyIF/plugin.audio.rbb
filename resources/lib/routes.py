@@ -431,7 +431,13 @@ def get_state_countries(addon_handle, page):
 def get_states(addon_handle, state, page):
     page = int(page)
     response = server.get(
-        f"/states/{state}/", {"offset": page * 50, "limit": 50}
+        f"/states/{state}/",
+        {
+            "offset": page * 50,
+            "limit": 50,
+            "order": "stationcount",
+            "reverse": "true",
+        },
     ).json()
 
     states_list = []
@@ -463,7 +469,15 @@ def get_states(addon_handle, state, page):
 
 def get_languages(addon_handle, page):
     page = int(page)
-    response = server.get("/languages", {"offset": page * 50, "limit": 50}).json()
+    response = server.get(
+        "/languages",
+        {
+            "offset": page * 50,
+            "limit": 50,
+            "order": "stationcount",
+            "reverse": "true",
+        },
+    ).json()
 
     languages_list = []
     for category in response:
@@ -491,7 +505,15 @@ def get_languages(addon_handle, page):
 
 def get_tags(addon_handle, page):
     page = int(page)
-    response = server.get("/tags", {"offset": page * 50, "limit": 50}).json()
+    response = server.get(
+        "/tags",
+        {
+            "offset": page * 50,
+            "limit": 50,
+            "order": "stationcount",
+            "reverse": "true",
+        },
+    ).json()
 
     tags_list = []
     for category in response:
@@ -519,7 +541,15 @@ def get_tags(addon_handle, page):
 
 def get_codecs(addon_handle, page):
     page = int(page)
-    response = server.get("/codecs", {"offset": page * 50, "limit": 50}).json()
+    response = server.get(
+        "/codecs",
+        {
+            "offset": page * 50,
+            "limit": 50,
+            "order": "stationcount",
+            "reverse": "true",
+        },
+    ).json()
 
     codecs_list = []
     for category in response:

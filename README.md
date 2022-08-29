@@ -24,6 +24,7 @@ This plugin is still in a very early stage. Here's what it can do and what's pla
 - [x] Filter states by country
 - [x] Search stations by different things
 - [ ] Add/remove stations to/from Favourites
+- [ ] Vote for stations
 - [ ] Localization:
 - - [ ] Of the main interface
 - - [ ] Of locations and countries
