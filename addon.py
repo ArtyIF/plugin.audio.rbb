@@ -58,6 +58,8 @@ def main():
         routes.open_search_sort_directory(addon_handle, args["kind"][0], args["search_text"][0])
     elif mode[0] == "favourites":
         routes.get_favourite_stations(addon_handle)
+    elif mode[0] == "custom_url":
+        routes.open_custom_url(addon_handle)
     elif mode[0] == "results":
         server.connect()
         routes.perform_search(

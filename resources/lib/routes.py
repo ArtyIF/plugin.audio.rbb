@@ -26,6 +26,7 @@ def root(addon_handle):
     )
     menu_list.append(gui.directory_item("Stations by...", "stations_by"))
     menu_list.append(gui.directory_item("Search...", "search"))
+    menu_list.append(gui.directory_item("Custom URL", "custom_url"))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
@@ -325,7 +326,7 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
 
 def open_search_by_name(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading("Enter the station name")
+    keyboard.setHeading("Enter station name")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         open_search_sort_directory(addon_handle, "name", keyboard.getText())
@@ -333,7 +334,7 @@ def open_search_by_name(addon_handle):
 
 def open_search_by_tags(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading("Enter the comma-separated tags")
+    keyboard.setHeading("Enter comma-separated tags")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         open_search_sort_directory(
@@ -343,11 +344,25 @@ def open_search_by_tags(addon_handle):
         )
 
 
+def open_custom_url(addon_handle):
+    keyboard = xbmc.Keyboard()
+    keyboard.setHeading("Enter stream URL")
+    keyboard.doModal()
+    if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
+        # TODO: try to load info from radio browser and let the user favourite it if successful
+        play(addon_handle, keyboard.getText())
+
+
 def get_favourite_stations(addon_handle):
     pass
 
 
-def play(addon_handle, path, uuid):
+def play(addon_handle, path, uuid=""):
     li = xbmcgui.ListItem(path=path)
-    click_counter_result = server.post("/url/" + uuid).json()
-    xbmcplugin.setResolvedUrl(addon_handle, click_counter_result.get("ok", False), li)
+    if len(uuid) > 0:
+        click_counter_result = server.post("/url/" + uuid).json()
+        xbmcplugin.setResolvedUrl(
+            addon_handle, click_counter_result.get("ok", False), li
+        )
+    else:
+        xbmcplugin.setResolvedUrl(addon_handle, True, li)
