@@ -560,13 +560,15 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
 
     results_list = []
     for station in response:
+        votes = [f"[B]{station['votes']} votes[/B]"]
+        # TODO: localize language and location. pycountry maybe?
         language = station["language"].split(",")
         language = [i.title() for i in language]
 
         location = [station["state"], station["country"]]
         tags = station["tags"].split(",")
 
-        cleaned_tags = [i for i in language + location + tags if i]
+        cleaned_tags = [i for i in votes + language + location + tags if i]
         genre = ", ".join(cleaned_tags)
 
         if station["lastcheckok"] == 0:
