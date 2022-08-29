@@ -88,7 +88,7 @@ def get_stations(addon_handle, kind, page, orderby, reverse):
         )
         li.setProperty("IsPlayable", "true")
         url = utils.build_url(
-            {"mode": "listen", "url": station["url"], "uuid": station["stationuuid"]}
+            {"mode": "listen", "url": station["url_resolved"], "uuid": station["stationuuid"]}
         )
         station_list.append((url, li, False))
 
@@ -627,7 +627,7 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
         )
         li.setProperty("IsPlayable", "true")
         url = utils.build_url(
-            {"mode": "listen", "url": station["url"], "uuid": station["stationuuid"]}
+            {"mode": "listen", "url": station["url_resolved"], "uuid": station["stationuuid"]}
         )
         results_list.append((url, li, False))
 
