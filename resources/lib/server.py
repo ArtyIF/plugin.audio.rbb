@@ -1,9 +1,8 @@
 import socket
 import random
 import requests
-import xbmcgui
 
-headers = {"User-Agent": "RadioBrowser2/0.6.0"}
+headers = {"User-Agent": "RadioBrowser2/0.6.1"}
 server_url = ""
 
 
