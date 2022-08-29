@@ -8,8 +8,12 @@ from resources.lib import server, utils, gui
 def root(addon_handle):
     menu_list = []
     # menu_list.append(gui.directory_item("Favourites", "favourites"))
-    menu_list.append(gui.directory_item("Most Voted Stations", "stations", kind="topvote"))
-    menu_list.append(gui.directory_item("Trending Stations", "stations", kind="topclick"))
+    menu_list.append(
+        gui.directory_item("Most Voted Stations", "stations", kind="topvote")
+    )
+    menu_list.append(
+        gui.directory_item("Trending Stations", "stations", kind="topclick")
+    )
     menu_list.append(
         gui.directory_item(
             "Stations Recently Played by Others", "stations", kind="lastclick"
