@@ -148,7 +148,7 @@ def open_search_directory(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_sort_directory(addon_handle, kind):
+def open_stations_sort_directory(addon_handle, kind):
     menu_list = []
 
     li = xbmcgui.ListItem("Most Voted First")
@@ -187,15 +187,15 @@ def open_sort_directory(addon_handle, kind):
     )
     menu_list.append((url, li, True))
 
-    li = xbmcgui.ListItem("Sort by Bitrate (lowest and undefined first)")
-    url = utils.build_url(
-        {"mode": "stations", "kind": kind, "orderby": "bitrate", "reverse": "false"}
-    )
-    menu_list.append((url, li, True))
-
     li = xbmcgui.ListItem("Sort by Bitrate (highest first)")
     url = utils.build_url(
         {"mode": "stations", "kind": kind, "orderby": "bitrate", "reverse": "true"}
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Bitrate (lowest and undefined first)")
+    url = utils.build_url(
+        {"mode": "stations", "kind": kind, "orderby": "bitrate", "reverse": "false"}
     )
     menu_list.append((url, li, True))
 
@@ -224,6 +224,145 @@ def open_sort_directory(addon_handle, kind):
     li = xbmcgui.ListItem("Random")
     url = utils.build_url(
         {"mode": "stations", "kind": kind, "orderby": "random", "reverse": "false"}
+    )
+    menu_list.append((url, li, True))
+
+    xbmcplugin.addDirectoryItems(addon_handle, menu_list)
+    xbmcplugin.endOfDirectory(addon_handle)
+
+
+def open_search_sort_directory(addon_handle, kind, search_text):
+    menu_list = []
+
+    li = xbmcgui.ListItem("Most Voted First")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "votes",
+            "reverse": "true",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Least Voted First")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "votes",
+            "reverse": "false",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Most Listeners First")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "clickcount",
+            "reverse": "true",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Least Listeners First")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "clickcount",
+            "reverse": "false",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Name (A-Z)")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "name",
+            "reverse": "false",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Name (Z-A)")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "name",
+            "reverse": "true",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Bitrate (highest first)")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "bitrate",
+            "reverse": "true",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Bitrate (lowest and undefined first)")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "bitrate",
+            "reverse": "false",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Recently Changed (oldest first)")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "changetimestamp",
+            "reverse": "false",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Sort by Recently Changed (newest first)")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "changetimestamp",
+            "reverse": "true",
+        }
+    )
+    menu_list.append((url, li, True))
+
+    li = xbmcgui.ListItem("Random")
+    url = utils.build_url(
+        {
+            "mode": "results",
+            "kind": kind,
+            "search_text": search_text,
+            "orderby": "random",
+            "reverse": "false",
+        }
     )
     menu_list.append((url, li, True))
 
@@ -406,10 +545,17 @@ def get_codecs(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def perform_search(addon_handle, kind, search_text, page):
+def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
     page = int(page)
     response = server.get(
-        "/stations/search", {kind: search_text, "offset": page * 50, "limit": 50}
+        "/stations/search",
+        {
+            kind: search_text,
+            "offset": page * 50,
+            "limit": 50,
+            "order": orderby,
+            "reverse": reverse,
+        },
     ).json()
 
     results_list = []
@@ -470,9 +616,7 @@ def open_search_by_name(addon_handle):
     keyboard.setHeading("Enter the station name")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
-        server.connect()
-        # TODO: add sorting similar to station lists
-        perform_search(addon_handle, "name", keyboard.getText(), 0)
+        open_search_sort_directory(addon_handle, "name", keyboard.getText())
 
 
 def open_search_by_tags(addon_handle):
@@ -480,13 +624,10 @@ def open_search_by_tags(addon_handle):
     keyboard.setHeading("Enter the comma-separated tags")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
-        server.connect()
-        # TODO: add sorting similar to station lists
-        perform_search(
+        open_search_sort_directory(
             addon_handle,
             "tag",
             ",".join([i.strip() for i in keyboard.getText().split(",")]),
-            0,
         )
 
 

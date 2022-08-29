@@ -26,7 +26,7 @@ def main():
     elif mode[0] == "search":
         routes.open_search_directory(addon_handle)
     elif mode[0] == "stations_sort":
-        routes.open_sort_directory(addon_handle, args["kind"][0])
+        routes.open_stations_sort_directory(addon_handle, args["kind"][0])
     elif mode[0] == "countries":
         server.connect()
         routes.get_countries(addon_handle, args.get("page", [0])[0])
@@ -54,12 +54,16 @@ def main():
         routes.open_search_by_name(addon_handle)
     elif mode[0] == "search_by_tags":
         routes.open_search_by_tags(addon_handle)
+    elif mode[0] == "search_sort":
+        routes.open_search_sort_directory(addon_handle, args["kind"][0], args["search_text"][0])
     elif mode[0] == "results":
         server.connect()
         routes.perform_search(
             addon_handle,
             args.get("kind", ["name"])[0],
             args["search_text"][0],
+            args.get("orderby", ["votes"])[0],
+            args.get("reverse", ["true"])[0],
             args.get("page", [0])[0],
         )
     else:
