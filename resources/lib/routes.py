@@ -2,7 +2,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 
-from resources.lib import server, utils, gui
+from resources.lib import server, utils, gui, saved_stations
 
 
 def root(addon_handle):
@@ -358,7 +358,7 @@ def open_custom_url(addon_handle):
 
 
 def get_saved_station_stations(addon_handle):
-    stations_list = utils.get_saved_stations()
+    stations_list = saved_stations.get_saved_stations()
 
     xbmcplugin.addDirectoryItems(addon_handle, stations_list)
     xbmcplugin.setContent(addon_handle, "songs")

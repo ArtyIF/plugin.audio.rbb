@@ -2,7 +2,7 @@ import sys
 import xbmcgui
 from urllib.parse import parse_qs
 
-from resources.lib import routes, server, utils
+from resources.lib import routes, server, saved_stations
 
 
 def main():
@@ -60,9 +60,14 @@ def main():
         routes.get_saved_station_stations(addon_handle)
     elif mode[0] == "saved_station_add":
         if args.get("uuid", None):
-            utils.add_saved_station(args["uuid"][0], "uuid")
+            saved_stations.add_saved_station(args["uuid"][0], "uuid")
         elif args.get("url", None):
-            utils.add_saved_station(args["url"][0], "url")
+            saved_stations.add_saved_station(args["url"][0], "url")
+    elif mode[0] == "saved_station_remove":
+        if args.get("uuid", None):
+            saved_stations.remove_saved_station(args["uuid"][0], "uuid")
+        elif args.get("url", None):
+            saved_stations.remove_saved_station(args["url"][0], "url")
     elif mode[0] == "custom_url":
         routes.open_custom_url(addon_handle)
     elif mode[0] == "results":
