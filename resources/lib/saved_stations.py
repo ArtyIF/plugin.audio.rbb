@@ -12,38 +12,37 @@ saved_stations_path = xbmcvfs.translatePath(
 )
 
 
-def load_saved_stations():
-    global saved_stations, saved_stations_path
-    if (
-        not Path(saved_stations_path).is_file()
-        or os.stat(saved_stations_path).st_size == 0
-    ):
-        saved_stations = []
-        update_saved_stations()
-    else:
-        with open(saved_stations_path, "r+") as file:
-            try:
-                saved_stations = json.load(file)
-            except json.JSONDecodeError as e:
-                # TODO: backup instead of deleting
-                xbmcgui.Dialog().notification(
-                    "JSON decode error occured when loading saved stations, resetting saved stations...",
-                    str(e),
-                )
-                file.seek(0)
-                file.write("[]")
-                file.truncate()
-                saved_stations = []
-
-
 def update_saved_stations():
     global saved_stations, saved_stations_path
     with open(saved_stations_path, "w+") as file:
         json.dump(saved_stations, file)
 
 
+def is_in_saved_stations(val, kind):
+    global saved_stations
+    return {kind: val} in saved_stations
+
+
+if not Path(saved_stations_path).is_file() or os.stat(saved_stations_path).st_size == 0:
+    saved_stations = []
+    update_saved_stations()
+else:
+    with open(saved_stations_path, "r+") as file:
+        try:
+            saved_stations = json.load(file)
+        except json.JSONDecodeError as e:
+            # TODO: backup instead of deleting
+            xbmcgui.Dialog().notification(
+                "JSON decode error occured when loading saved stations, resetting saved stations...",
+                str(e),
+            )
+            file.seek(0)
+            file.write("[]")
+            file.truncate()
+            saved_stations = []
+
+
 def get_saved_stations():
-    load_saved_stations()
     global saved_stations
 
     resolved_stations = []
@@ -68,7 +67,6 @@ def get_saved_stations():
 
 
 def add_saved_station(val, kind):
-    load_saved_stations()
     global saved_stations
 
     # TODO: add ability to name saved custom URL stations
@@ -78,7 +76,6 @@ def add_saved_station(val, kind):
 
 
 def remove_saved_station(val, kind):
-    load_saved_stations()
     global saved_stations
 
     saved_stations.remove({kind: val})
