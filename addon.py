@@ -1,6 +1,6 @@
 import sys
-import xbmcgui
 from urllib.parse import parse_qs
+import xbmcgui
 
 from resources.lib import routes, server, saved_stations
 

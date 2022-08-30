@@ -9,13 +9,13 @@ server_url = ""
 def get(path, params={}, **kwargs):
     if server_url == "":
         raise ConnectionError("Not connected to server")
-    return requests.get(server_url + path, headers=headers, params=params, **kwargs)
+    return requests.get(server_url + path, headers=headers, params=params, timeout=5.0, **kwargs)
 
 
 def post(path, params={}, **kwargs):
     if server_url == "":
         raise ConnectionError("Not connected to server")
-    return requests.post(server_url + path, headers=headers, params=params, **kwargs)
+    return requests.post(server_url + path, headers=headers, params=params, timeout=5.0, **kwargs)
 
 
 # from https://api.radio-browser.info/examples/serverlist_python3.py
@@ -23,9 +23,9 @@ def get_radiobrowser_base_urls():
     hosts = []
     ips = socket.getaddrinfo("all.api.radio-browser.info", 80, 0, 0, socket.IPPROTO_TCP)
     for ip_tuple in ips:
-        ip = ip_tuple[4][0]
+        ip_address = ip_tuple[4][0]
 
-        host_addr = socket.gethostbyaddr(ip)
+        host_addr = socket.gethostbyaddr(ip_address)
         if host_addr[0] not in hosts:
             hosts.append(host_addr[0])
 

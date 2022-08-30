@@ -105,14 +105,14 @@ def get_countries(addon_handle, page):
 
     countries_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"])
+        list_item = xbmcgui.ListItem(category["name"])
 
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": category["name"],
                 "count": category["stationcount"],
-                "genre": "%i stations" % category['stationcount'],
+                "genre": "%i stations" % category["stationcount"],
             },
         )
         url = utils.build_url(
@@ -121,7 +121,7 @@ def get_countries(addon_handle, page):
                 "kind": "bycountrycodeexact/" + category["iso_3166_1"],
             }
         )
-        countries_list.append((url, li, True))
+        countries_list.append((url, list_item, True))
 
     countries_list.append(gui.next_page_item(response, "countries", page))
     countries_list = [i for i in countries_list if i]
@@ -137,17 +137,20 @@ def get_state_countries(addon_handle, page):
 
     state_countries_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"])
+        list_item = xbmcgui.ListItem(category["name"])
 
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": category["name"],
-                "genre": "%i total stations" % category['stationcount'],  # TODO: replace with state count if possible
+                "genre": "%i total stations"
+                % category[
+                    "stationcount"
+                ],  # TODO: replace with state count if possible
             },
         )
         url = utils.build_url({"mode": "states", "state": category["name"]})
-        state_countries_list.append((url, li, True))
+        state_countries_list.append((url, list_item, True))
 
     state_countries_list.append(gui.next_page_item(response, "state_countries", page))
     state_countries_list = [i for i in state_countries_list if i]
@@ -171,20 +174,21 @@ def get_states(addon_handle, state, page):
 
     states_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"])
+        list_item = xbmcgui.ListItem(category["name"])
 
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": category["name"],
-                "genre": "%i stations" % category['stationcount'],
+                "genre": "%i stations" % category["stationcount"],
             },
         )
         url = utils.build_url(
-            # FIXME: sometimes it picks up similarly named states as well, like Bavaria, Germany when the user picked Bavaria, Netherlands
+            # FIXME: sometimes it picks up similarly named states as well,
+            # FIXME: like Bavaria, Germany when the user picked Bavaria, Netherlands
             {"mode": "stations_sort", "kind": "bystateexact/" + category["name"]}
         )
-        states_list.append((url, li, True))
+        states_list.append((url, list_item, True))
 
     states_list.append(gui.next_page_item(response, "countries", page, state=state))
     states_list = [i for i in states_list if i]
@@ -208,19 +212,19 @@ def get_languages(addon_handle, page):
 
     languages_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"].title())
+        list_item = xbmcgui.ListItem(category["name"].title())
 
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": category["name"].title(),
-                "genre": "%i stations" % category['stationcount'],
+                "genre": "%i stations" % category["stationcount"],
             },
         )
         url = utils.build_url(
             {"mode": "stations_sort", "kind": "bylanguageexact/" + category["name"]}
         )
-        languages_list.append((url, li, True))
+        languages_list.append((url, list_item, True))
 
     languages_list.append(gui.next_page_item(response, "languages", page))
     languages_list = [i for i in languages_list if i]
@@ -244,19 +248,19 @@ def get_tags(addon_handle, page):
 
     tags_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"])
+        list_item = xbmcgui.ListItem(category["name"])
 
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": category["name"],
-                "genre": "%i stations" % category['stationcount'],
+                "genre": "%i stations" % category["stationcount"],
             },
         )
         url = utils.build_url(
             {"mode": "stations_sort", "kind": "bytagexact/" + category["name"]}
         )
-        tags_list.append((url, li, True))
+        tags_list.append((url, list_item, True))
 
     tags_list.append(gui.next_page_item(response, "tags", page))
     tags_list = [i for i in tags_list if i]
@@ -280,19 +284,19 @@ def get_codecs(addon_handle, page):
 
     codecs_list = []
     for category in response:
-        li = xbmcgui.ListItem(category["name"])
+        list_item = xbmcgui.ListItem(category["name"])
 
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": category["name"],
-                "genre": "%i stations" % category['stationcount'],
+                "genre": "%i stations" % category["stationcount"],
             },
         )
         url = utils.build_url(
             {"mode": "stations_sort", "kind": "bycodecexact/" + category["name"]}
         )
-        codecs_list.append((url, li, True))
+        codecs_list.append((url, list_item, True))
 
     codecs_list.append(gui.next_page_item(response, "codecs", page))
     codecs_list = [i for i in codecs_list if i]
@@ -384,17 +388,21 @@ def vote_for_station(uuid):
     vote_result = server.post("/vote/" + uuid).json()
 
     if vote_result["ok"]:
-        xbmcgui.Dialog().notification("RadioBrowser²", "Voted for station successfully!")
+        xbmcgui.Dialog().notification(
+            "RadioBrowser²", "Voted for station successfully!"
+        )
     else:
-        xbmcgui.Dialog().notification("RadioBrowser²", "Voting for station failed: " + vote_result["message"])
+        xbmcgui.Dialog().notification(
+            "RadioBrowser²", "Voting for station failed: " + vote_result["message"]
+        )
 
 
 def play(addon_handle, path, uuid):
-    li = xbmcgui.ListItem(path=path)
+    list_item = xbmcgui.ListItem(path=path)
     if len(uuid) > 0:
         click_counter_result = server.post("/url/" + uuid).json()
         xbmcplugin.setResolvedUrl(
-            addon_handle, click_counter_result.get("ok", False), li
+            addon_handle, click_counter_result.get("ok", False), list_item
         )
     else:
-        xbmcplugin.setResolvedUrl(addon_handle, True, li)
+        xbmcplugin.setResolvedUrl(addon_handle, True, list_item)
