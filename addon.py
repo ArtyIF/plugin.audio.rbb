@@ -2,7 +2,7 @@ import sys
 import xbmcgui
 from urllib.parse import parse_qs
 
-from resources.lib import routes, server
+from resources.lib import routes, server, utils
 
 
 def main():
@@ -56,8 +56,13 @@ def main():
         routes.open_search_by_tags(addon_handle)
     elif mode[0] == "search_sort":
         routes.open_search_sort_directory(addon_handle, args["kind"][0], args["search_text"][0])
-    elif mode[0] == "favourites":
-        routes.get_favourite_stations(addon_handle)
+    elif mode[0] == "saved_stations":
+        routes.get_saved_station_stations(addon_handle)
+    elif mode[0] == "saved_station_add":
+        if args.get("uuid", None):
+            utils.add_saved_station(args["uuid"][0], "uuid")
+        elif args.get("url", None):
+            utils.add_saved_station(args["url"][0], "url")
     elif mode[0] == "custom_url":
         routes.open_custom_url(addon_handle)
     elif mode[0] == "results":

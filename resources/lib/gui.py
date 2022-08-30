@@ -21,48 +21,84 @@ def next_page_item(response, mode, current_page, **kwargs):
 
 
 def station_item(station, number):
-    votes = [f"[B]{station['votes']} votes[/B]"]
+    resolved = type(station) is dict
 
-    language = station["language"].split(",")
-    language = [i.title() for i in language]
+    if resolved:
+        votes = [f"[B]{station['votes']} votes[/B]"]
 
-    location = [station["state"], station["country"]]
-    tags = station["tags"].split(",")
+        language = station["language"].split(",")
+        language = [i.title() for i in language]
 
-    cleaned_tags = [i for i in votes + language + location + tags if i]
-    genre = ", ".join(cleaned_tags)
+        location = [station["state"], station["country"]]
+        tags = station["tags"].split(",")
 
-    if station["lastcheckok"] == 0:
-        genre = "[B]Offline![/B] " + genre
+        cleaned_tags = [i for i in votes + language + location + tags if i]
+        genre = ", ".join(cleaned_tags)
 
-    li = xbmcgui.ListItem(station["name"], genre)
+        if station["lastcheckok"] == 0:
+            genre = "[B]Offline![/B] " + genre
 
-    li.setInfo(
-        "music",
-        {
-            "title": station["name"],
-            "tracknumber": number,
-            "size": station["bitrate"],
-            "genre": genre,
-        },
-    )
-    li.setArt(
-        {
-            "thumb": station["favicon"],
-            "poster": station["favicon"],
-            "fanart": station["favicon"],
-            "landscape": station["favicon"],
-            "icon": station["favicon"],
-        }
-    )
+        li = xbmcgui.ListItem(station["name"], genre)
+    else:
+        genre = ""
+        li = xbmcgui.ListItem(station, genre)
+
+
+    if resolved:
+        li.setInfo(
+            "music",
+            {
+                "title": station["name"],
+                "tracknumber": number,
+                "size": station["bitrate"],
+                "genre": genre,
+            },
+        )
+        li.setArt(
+            {
+                "thumb": station["favicon"],
+                "poster": station["favicon"],
+                "fanart": station["favicon"],
+                "landscape": station["favicon"],
+                "icon": station["favicon"],
+            }
+        )
+    else:
+        li.setInfo("music", {"title": station})
+
     li.setProperty("IsPlayable", "true")
-    url = utils.build_url(
-        {
-            "mode": "listen",
-            "url": station["url_resolved"],
-            "uuid": station["stationuuid"],
-        }
-    )
+
+    if resolved:
+        li.addContextMenuItems(
+            [
+                (
+                    "Add to Saved Stations",
+                    "RunPlugin(%s)"
+                    % utils.build_url(
+                        {"mode": "saved_station_add", "uuid": station["stationuuid"]}
+                    ),
+                )
+            ]
+        )
+
+        url = utils.build_url(
+            {
+                "mode": "listen",
+                "url": station["url_resolved"],
+                "uuid": station["stationuuid"],
+            }
+        )
+    else:
+        li.addContextMenuItems(
+            [
+                (
+                    "Add to Saved Stations",
+                    "RunPlugin(%s)"
+                    % utils.build_url({"mode": "saved_station_add", "url": station}),
+                )
+            ]
+        )
+        url = utils.build_url({"mode": "listen", "url": station})
     return (url, li, False)
 
 

@@ -4,7 +4,7 @@
 **RadioBrowser²** (Radio Browser Browser, or Radio Browser Squared) is a music add-on to browse the radio station list on [radio-browser.info](https://www.radio-browser.info/).
 
 ## Progress
-This plugin is still in a very early stage. Here's what it can do and what's planned:
+This plugin is still in an early stage. Here's what it can do and what's planned:
 - [x] List most voted stations
 - [x] List most clicked (trending) stations
 - [x] List recently clicked (recently played by others) stations
@@ -22,8 +22,8 @@ This plugin is still in a very early stage. Here's what it can do and what's pla
 - - [x] Codec
 - [x] Let the user choose to sort stations
 - [x] Filter states by country
-- [x] Search stations by different things
-- [ ] Add/remove stations to/from Favourites
+- [x] Search stations by name and tags
+- [ ] Add/remove stations to/from Saved Stations
 - [ ] Vote for stations
 - [ ] Localization:
 - - [ ] Of the main interface

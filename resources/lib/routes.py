@@ -7,7 +7,7 @@ from resources.lib import server, utils, gui
 
 def root(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item("Favourites", "favourites"))
+    menu_list.append(gui.directory_item("Saved Stations", "saved_stations"))
     menu_list.append(
         gui.directory_item("Most Voted Stations", "stations", kind="topvote")
     )
@@ -349,7 +349,7 @@ def open_custom_url(addon_handle):
     keyboard.setHeading("Enter stream URL")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
-        # TODO: try to load info from radio browser and let the user favourite it if successful
+        # TODO: try to load info from radio browser and let the user saved_station it if successful
         # The issue with that is that the API only searches by unresolved URL
         li = xbmcgui.ListItem(keyboard.getText())
 
@@ -372,8 +372,8 @@ def open_custom_url(addon_handle):
         xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_favourite_stations(addon_handle):
-    stations_list = utils.get_favourites()
+def get_saved_station_stations(addon_handle):
+    stations_list = utils.get_saved_stations()
 
     xbmcplugin.addDirectoryItems(addon_handle, stations_list)
     xbmcplugin.setContent(addon_handle, "songs")
