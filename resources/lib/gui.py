@@ -1,5 +1,5 @@
 import xbmcgui
-from resources.lib import utils
+from resources.lib import utils, saved_stations
 
 
 def directory_item(label, mode, **kwargs):
@@ -43,7 +43,6 @@ def station_item(station, number):
         genre = ""
         li = xbmcgui.ListItem(station, genre)
 
-
     if resolved:
         li.setInfo(
             "music",
@@ -69,17 +68,36 @@ def station_item(station, number):
     li.setProperty("IsPlayable", "true")
 
     if resolved:
-        li.addContextMenuItems(
-            [
-                (
-                    "Add to Saved Stations",
-                    "RunPlugin(%s)"
-                    % utils.build_url(
-                        {"mode": "saved_station_add", "uuid": station["stationuuid"]}
-                    ),
-                )
-            ]
-        )
+        if saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
+            li.addContextMenuItems(
+                [
+                    (
+                        "Add to Saved Stations",
+                        "RunPlugin(%s)"
+                        % utils.build_url(
+                            {
+                                "mode": "saved_station_add",
+                                "uuid": station["stationuuid"],
+                            }
+                        ),
+                    )
+                ]
+            )
+        else:
+            li.addContextMenuItems(
+                [
+                    (
+                        "Remove from Saved Stations",
+                        "RunPlugin(%s)"
+                        % utils.build_url(
+                            {
+                                "mode": "saved_station_remove",
+                                "uuid": station["stationuuid"],
+                            }
+                        ),
+                    )
+                ]
+            )
 
         url = utils.build_url(
             {
@@ -89,15 +107,30 @@ def station_item(station, number):
             }
         )
     else:
-        li.addContextMenuItems(
-            [
-                (
-                    "Add to Saved Stations",
-                    "RunPlugin(%s)"
-                    % utils.build_url({"mode": "saved_station_add", "url": station}),
-                )
-            ]
-        )
+        if saved_stations.is_in_saved_stations(station, "url"):
+            li.addContextMenuItems(
+                [
+                    (
+                        "Add to Saved Stations",
+                        "RunPlugin(%s)"
+                        % utils.build_url(
+                            {"mode": "saved_station_add", "url": station}
+                        ),
+                    )
+                ]
+            )
+        else:
+            li.addContextMenuItems(
+                [
+                    (
+                        "Remove from Saved Stations",
+                        "RunPlugin(%s)"
+                        % utils.build_url(
+                            {"mode": "saved_station_remove", "url": station}
+                        ),
+                    )
+                ]
+            )
         url = utils.build_url({"mode": "listen", "url": station})
     return (url, li, False)
 
