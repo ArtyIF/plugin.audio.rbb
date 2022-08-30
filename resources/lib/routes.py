@@ -7,7 +7,7 @@ from resources.lib import server, utils, gui
 
 def root(addon_handle):
     menu_list = []
-    # menu_list.append(gui.directory_item("Favourites", "favourites"))
+    menu_list.append(gui.directory_item("Favourites", "favourites"))
     menu_list.append(
         gui.directory_item("Most Voted Stations", "stations", kind="topvote")
     )
@@ -350,14 +350,37 @@ def open_custom_url(addon_handle):
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         # TODO: try to load info from radio browser and let the user favourite it if successful
-        play(addon_handle, keyboard.getText())
+        # The issue with that is that the API only searches by unresolved URL
+        li = xbmcgui.ListItem(keyboard.getText())
+
+        li.setInfo(
+            "music",
+            {
+                "title": keyboard.getText(),
+                "tracknumber": 1,
+            },
+        )
+        li.setProperty("IsPlayable", "true")
+        url = utils.build_url(
+            {
+                "mode": "listen",
+                "url": keyboard.getText(),
+            }
+        )
+        xbmcplugin.addDirectoryItems(addon_handle, [(url, li, False)])
+        xbmcplugin.setContent(addon_handle, "songs")
+        xbmcplugin.endOfDirectory(addon_handle)
 
 
 def get_favourite_stations(addon_handle):
-    pass
+    stations_list = utils.get_favourites()
+
+    xbmcplugin.addDirectoryItems(addon_handle, stations_list)
+    xbmcplugin.setContent(addon_handle, "songs")
+    xbmcplugin.endOfDirectory(addon_handle)
 
 
-def play(addon_handle, path, uuid=""):
+def play(addon_handle, path, uuid):
     li = xbmcgui.ListItem(path=path)
     if len(uuid) > 0:
         click_counter_result = server.post("/url/" + uuid).json()

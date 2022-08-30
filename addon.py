@@ -49,7 +49,7 @@ def main():
         routes.get_codecs(addon_handle, args.get("page", [0])[0])
     elif mode[0] == "listen":
         server.connect()
-        routes.play(addon_handle, args["url"][0], args["uuid"][0])
+        routes.play(addon_handle, args["url"][0], args.get("uuid", [""])[0])
     elif mode[0] == "search_by_name":
         routes.open_search_by_name(addon_handle)
     elif mode[0] == "search_by_tags":
