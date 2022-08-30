@@ -24,7 +24,7 @@ This plugin is still in an early stage. Here's what it can do and what's planned
 - [x] Filter states by country
 - [x] Search stations by name and tags
 - [x] Add/remove stations to/from Saved Stations
-- [ ] Vote for stations
+- [x] Vote for stations
 - [ ] Localization:
 - - [ ] Of the main interface
 - - [ ] Of locations and countries

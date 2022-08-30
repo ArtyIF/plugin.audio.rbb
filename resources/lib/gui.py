@@ -67,37 +67,41 @@ def station_item(station, number):
 
     li.setProperty("IsPlayable", "true")
 
+    context_menu_items = []
     if resolved:
         if not saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
-            li.addContextMenuItems(
-                [
-                    (
-                        "Add to Saved Stations",
-                        "RunPlugin(%s)"
-                        % utils.build_url(
-                            {
-                                "mode": "saved_station_add",
-                                "uuid": station["stationuuid"],
-                            }
-                        ),
-                    )
-                ]
+            context_menu_items.append(
+                (
+                    "Add to Saved Stations",
+                    "RunPlugin(%s)"
+                    % utils.build_url(
+                        {
+                            "mode": "saved_station_add",
+                            "uuid": station["stationuuid"],
+                        }
+                    ),
+                )
             )
         else:
-            li.addContextMenuItems(
-                [
-                    (
-                        "Remove from Saved Stations",
-                        "RunPlugin(%s)"
-                        % utils.build_url(
-                            {
-                                "mode": "saved_station_remove",
-                                "uuid": station["stationuuid"],
-                            }
-                        ),
-                    )
-                ]
+            context_menu_items.append(
+                (
+                    "Remove from Saved Stations",
+                    "RunPlugin(%s)"
+                    % utils.build_url(
+                        {
+                            "mode": "saved_station_remove",
+                            "uuid": station["stationuuid"],
+                        }
+                    ),
+                )
             )
+        context_menu_items.append(
+            (
+                "Vote for Station",
+                "RunPlugin(%s)"
+                % utils.build_url({"mode": "vote", "uuid": station["stationuuid"]}),
+            )
+        )
 
         url = utils.build_url(
             {
@@ -108,30 +112,24 @@ def station_item(station, number):
         )
     else:
         if not saved_stations.is_in_saved_stations(station, "url"):
-            li.addContextMenuItems(
-                [
-                    (
-                        "Add to Saved Stations",
-                        "RunPlugin(%s)"
-                        % utils.build_url(
-                            {"mode": "saved_station_add", "url": station}
-                        ),
-                    )
-                ]
+            context_menu_items.append(
+                (
+                    "Add to Saved Stations",
+                    "RunPlugin(%s)"
+                    % utils.build_url({"mode": "saved_station_add", "url": station}),
+                )
             )
         else:
-            li.addContextMenuItems(
-                [
-                    (
-                        "Remove from Saved Stations",
-                        "RunPlugin(%s)"
-                        % utils.build_url(
-                            {"mode": "saved_station_remove", "url": station}
-                        ),
-                    )
-                ]
+            context_menu_items.append(
+                (
+                    "Remove from Saved Stations",
+                    "RunPlugin(%s)"
+                    % utils.build_url({"mode": "saved_station_remove", "url": station}),
+                )
             )
         url = utils.build_url({"mode": "listen", "url": station})
+
+    li.addContextMenuItems(context_menu_items)
     return (url, li, False)
 
 

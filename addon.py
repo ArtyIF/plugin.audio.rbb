@@ -70,6 +70,9 @@ def main():
             saved_stations.remove_saved_station(args["url"][0], "url")
     elif mode[0] == "custom_url":
         routes.open_custom_url(addon_handle)
+    elif mode[0] == "vote":
+        server.connect()
+        routes.vote_for_station(args["uuid"][0])
     elif mode[0] == "results":
         server.connect()
         routes.perform_search(

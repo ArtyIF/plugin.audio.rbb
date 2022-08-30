@@ -380,6 +380,15 @@ def get_saved_station_stations(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
+def vote_for_station(uuid):
+    vote_result = server.post("/vote/" + uuid).json()
+
+    if vote_result["ok"]:
+        xbmcgui.Dialog().notification("RadioBrowser²", "Voted for station successfully!")
+    else:
+        xbmcgui.Dialog().notification("RadioBrowser²", "Voting for station failed: " + vote_result["message"])
+
+
 def play(addon_handle, path, uuid):
     li = xbmcgui.ListItem(path=path)
     if len(uuid) > 0:
