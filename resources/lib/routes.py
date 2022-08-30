@@ -349,25 +349,10 @@ def open_custom_url(addon_handle):
     keyboard.setHeading("Enter stream URL")
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
-        # TODO: try to load info from radio browser and let the user saved_station it if successful
-        # The issue with that is that the API only searches by unresolved URL
-        li = xbmcgui.ListItem(keyboard.getText())
-
-        li.setInfo(
-            "music",
-            {
-                "title": keyboard.getText(),
-                "tracknumber": 1,
-            },
+        gui.station_item(keyboard.getText(), 1)
+        xbmcplugin.addDirectoryItems(
+            addon_handle, [gui.station_item(keyboard.getText(), 1)]
         )
-        li.setProperty("IsPlayable", "true")
-        url = utils.build_url(
-            {
-                "mode": "listen",
-                "url": keyboard.getText(),
-            }
-        )
-        xbmcplugin.addDirectoryItems(addon_handle, [(url, li, False)])
         xbmcplugin.setContent(addon_handle, "songs")
         xbmcplugin.endOfDirectory(addon_handle)
 
