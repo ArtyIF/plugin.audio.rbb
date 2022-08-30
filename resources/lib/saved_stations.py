@@ -62,7 +62,7 @@ def get_saved_stations():
 
     station_items = []
     for station in resolved_stations:
-        station_items.append(gui.station_item(station, len(saved_stations) + 1))
+        station_items.append(gui.station_item(station, len(station_items) + 1))
     return station_items
 
 
