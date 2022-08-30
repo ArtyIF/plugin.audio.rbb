@@ -68,7 +68,7 @@ def station_item(station, number):
     li.setProperty("IsPlayable", "true")
 
     if resolved:
-        if saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
+        if not saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
             li.addContextMenuItems(
                 [
                     (
@@ -107,7 +107,7 @@ def station_item(station, number):
             }
         )
     else:
-        if saved_stations.is_in_saved_stations(station, "url"):
+        if not saved_stations.is_in_saved_stations(station, "url"):
             li.addContextMenuItems(
                 [
                     (
