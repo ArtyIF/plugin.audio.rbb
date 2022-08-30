@@ -2,7 +2,7 @@ import socket
 import random
 import requests
 
-headers = {"User-Agent": "RadioBrowser2/0.8.0"}
+headers = {"User-Agent": "RadioBrowser2/0.9.0"}
 server_url = ""
 
 
@@ -47,7 +47,7 @@ def get_appropriate_server():
                 return server_base
             else:
                 raise ConnectionError(
-                    f"requests.get({uri}) returned status code {data.status_code}"
+                    "requests.get(%s) returned status code {%i}" % (uri, data.status_code)
                 )
         except ConnectionError:
             continue

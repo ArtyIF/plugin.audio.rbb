@@ -112,7 +112,7 @@ def get_countries(addon_handle, page):
             {
                 "title": category["name"],
                 "count": category["stationcount"],
-                "genre": f"{category['stationcount']} stations",
+                "genre": "%i stations" % category['stationcount'],
             },
         )
         url = utils.build_url(
@@ -143,7 +143,7 @@ def get_state_countries(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": f"{category['stationcount']} total stations",  # TODO: replace with state count if possible
+                "genre": "%i total stations" % category['stationcount'],  # TODO: replace with state count if possible
             },
         )
         url = utils.build_url({"mode": "states", "state": category["name"]})
@@ -177,7 +177,7 @@ def get_states(addon_handle, state, page):
             "music",
             {
                 "title": category["name"],
-                "genre": f"{category['stationcount']} stations",
+                "genre": "%i stations" % category['stationcount'],
             },
         )
         url = utils.build_url(
@@ -214,7 +214,7 @@ def get_languages(addon_handle, page):
             "music",
             {
                 "title": category["name"].title(),
-                "genre": f"{category['stationcount']} stations",
+                "genre": "%i stations" % category['stationcount'],
             },
         )
         url = utils.build_url(
@@ -250,7 +250,7 @@ def get_tags(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": f"{category['stationcount']} stations",
+                "genre": "%i stations" % category['stationcount'],
             },
         )
         url = utils.build_url(
@@ -286,7 +286,7 @@ def get_codecs(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": f"{category['stationcount']} stations",
+                "genre": "%i stations" % category['stationcount'],
             },
         )
         url = utils.build_url(
