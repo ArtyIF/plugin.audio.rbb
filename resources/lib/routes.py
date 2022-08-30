@@ -48,7 +48,16 @@ def get_stations(addon_handle, kind, page, orderby, reverse):
             gui.station_item(station, (page * 50) + len(station_list) + 1)
         )
 
-    station_list.append(gui.next_page_item(response, "stations", page, kind=kind))
+    station_list.append(
+        gui.next_page_item(
+            response,
+            "stations",
+            page,
+            kind=kind,
+            orderby=orderby,
+            reverse=reverse,
+        )
+    )
     station_list = [i for i in station_list if i]
 
     xbmcplugin.addDirectoryItems(addon_handle, station_list)
@@ -314,7 +323,13 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
 
     results_list.append(
         gui.next_page_item(
-            response, "results", page, kind=kind, search_text=search_text
+            response,
+            "results",
+            page,
+            kind=kind,
+            search_text=search_text,
+            orderby=orderby,
+            reverse=reverse,
         )
     )
     results_list = [i for i in results_list if i]
