@@ -1,4 +1,4 @@
-<addon id="plugin.audio.rbb" name="RadioBrowser²" provider-name="ArtyIF" version="0.8.0">
+<addon id="plugin.audio.rbb" name="RadioBrowser²" provider-name="ArtyIF" version="0.8.1">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" version="2.27.1"/>

@@ -10,6 +10,9 @@ saved_stations = []
 saved_stations_path = xbmcvfs.translatePath(
     "special://profile/addon_data/plugin.audio.rbb/settings.json"
 )
+Path(xbmcvfs.translatePath("special://profile/addon_data/plugin.audio.rbb")).mkdir(
+    exist_ok=True
+)
 
 
 def update_saved_stations():
