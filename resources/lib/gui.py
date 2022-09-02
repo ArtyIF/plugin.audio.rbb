@@ -13,7 +13,9 @@ def directory_item(label, mode, **kwargs):
 def next_page_item(response, mode, current_page, **kwargs):
     if len(response) == 50:
         list_item = xbmcgui.ListItem("Next Page")
-        list_item.setInfo("music", {"title": "Next Page", "genre": "Page %i" % current_page+2})
+        list_item.setInfo(
+            "music", {"title": "Next Page", "genre": "Page %i" % (current_page + 2)}
+        )
         query = {"mode": mode, "page": current_page + 1}
         query.update(kwargs)
         url = utils.build_url(query)
@@ -24,7 +26,7 @@ def station_item(station, number):
     resolved = isinstance(station, dict)
 
     if resolved:
-        votes = ["[B]%i votes[/B]" % station['votes']]
+        votes = ["[B]%i votes[/B]" % station["votes"]]
 
         language = station["language"].split(",")
         language = [i.title() for i in language]
