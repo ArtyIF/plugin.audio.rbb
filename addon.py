@@ -1,6 +1,6 @@
 import sys
-import xbmcgui
 from urllib.parse import parse_qs
+import xbmcgui
 
 from resources.lib import routes, server, saved_stations
 
@@ -87,7 +87,7 @@ def main():
         notif = xbmcgui.Dialog()
         notif.notification(
             "RadioBrowser² internal error! Tell the developer!",
-            f"Add-on tried to access a non-existent mode: {mode[0]} (all arguments: {args})",
+            "Add-on tried to access a non-existent mode: %s (all arguments: %s)" % (mode[0], args),
             xbmcgui.NOTIFICATION_ERROR,
         )
 

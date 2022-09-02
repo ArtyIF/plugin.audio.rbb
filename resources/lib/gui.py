@@ -3,28 +3,28 @@ from resources.lib import utils, saved_stations
 
 
 def directory_item(label, mode, **kwargs):
-    li = xbmcgui.ListItem(label)
+    list_item = xbmcgui.ListItem(label)
     query = {"mode": mode}
     query.update(kwargs)
     url = utils.build_url(query)
-    return (url, li, True)
+    return (url, list_item, True)
 
 
 def next_page_item(response, mode, current_page, **kwargs):
     if len(response) == 50:
-        li = xbmcgui.ListItem(f"Next Page")
-        li.setInfo("music", {"title": "Next Page", "genre": f"Page {current_page+2}"})
+        list_item = xbmcgui.ListItem("Next Page")
+        list_item.setInfo("music", {"title": "Next Page", "genre": "Page %i" % current_page+2})
         query = {"mode": mode, "page": current_page + 1}
         query.update(kwargs)
         url = utils.build_url(query)
-        return (url, li, True)
+        return (url, list_item, True)
 
 
 def station_item(station, number):
-    resolved = type(station) is dict
+    resolved = isinstance(station, dict)
 
     if resolved:
-        votes = [f"[B]{station['votes']} votes[/B]"]
+        votes = ["[B]%i votes[/B]" % station['votes']]
 
         language = station["language"].split(",")
         language = [i.title() for i in language]
@@ -38,13 +38,13 @@ def station_item(station, number):
         if station["lastcheckok"] == 0:
             genre = "[B]Offline![/B] " + genre
 
-        li = xbmcgui.ListItem(station["name"], genre)
+        list_item = xbmcgui.ListItem(station["name"], genre)
     else:
         genre = ""
-        li = xbmcgui.ListItem(station, genre)
+        list_item = xbmcgui.ListItem(station, genre)
 
     if resolved:
-        li.setInfo(
+        list_item.setInfo(
             "music",
             {
                 "title": station["name"],
@@ -53,7 +53,7 @@ def station_item(station, number):
                 "genre": genre,
             },
         )
-        li.setArt(
+        list_item.setArt(
             {
                 "thumb": station["favicon"],
                 "poster": station["favicon"],
@@ -63,9 +63,9 @@ def station_item(station, number):
             }
         )
     else:
-        li.setInfo("music", {"title": station})
+        list_item.setInfo("music", {"title": station})
 
-    li.setProperty("IsPlayable", "true")
+    list_item.setProperty("IsPlayable", "true")
 
     context_menu_items = []
     if resolved:
@@ -129,8 +129,8 @@ def station_item(station, number):
             )
         url = utils.build_url({"mode": "listen", "url": station})
 
-    li.addContextMenuItems(context_menu_items)
-    return (url, li, False)
+    list_item.addContextMenuItems(context_menu_items)
+    return (url, list_item, False)
 
 
 def sort_menu(mode, **kwargs):

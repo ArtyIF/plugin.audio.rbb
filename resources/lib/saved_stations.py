@@ -1,14 +1,14 @@
 import os
+import json
 from pathlib import Path
 import xbmcgui
 import xbmcvfs
-import json
 from resources.lib import server, gui
 
 
 saved_stations = []
-saved_stations_path = xbmcvfs.translatePath(
-    "special://profile/addon_data/plugin.audio.rbb/settings.json"
+SAVED_STATIONS_PATH = xbmcvfs.translatePath(
+    "special://profile/addon_data/plugin.audio.rbb/saved_stations.json"
 )
 Path(xbmcvfs.translatePath("special://profile/addon_data/plugin.audio.rbb")).mkdir(
     exist_ok=True
@@ -16,38 +16,34 @@ Path(xbmcvfs.translatePath("special://profile/addon_data/plugin.audio.rbb")).mkd
 
 
 def update_saved_stations():
-    global saved_stations, saved_stations_path
-    with open(saved_stations_path, "w+") as file:
+    with open(SAVED_STATIONS_PATH, "w+", encoding="utf-8") as file:
         json.dump(saved_stations, file)
 
 
 def is_in_saved_stations(val, kind):
-    global saved_stations
     return {kind: val} in saved_stations
 
 
-if not Path(saved_stations_path).is_file() or os.stat(saved_stations_path).st_size == 0:
+if not Path(SAVED_STATIONS_PATH).is_file() or os.stat(SAVED_STATIONS_PATH).st_size == 0:
     saved_stations = []
     update_saved_stations()
 else:
-    with open(saved_stations_path, "r+") as file:
+    with open(SAVED_STATIONS_PATH, "r+", encoding="utf-8") as saved_stations_file:
         try:
-            saved_stations = json.load(file)
+            saved_stations = json.load(saved_stations_file)
         except json.JSONDecodeError as e:
             # TODO: backup instead of deleting
             xbmcgui.Dialog().notification(
-                "JSON decode error occured when loading saved stations, resetting saved stations...",
+                "JSON decode error occured while loading saved stations, resetting stations...",
                 str(e),
             )
-            file.seek(0)
-            file.write("[]")
-            file.truncate()
+            saved_stations_file.seek(0)
+            saved_stations_file.write("[]")
+            saved_stations_file.truncate()
             saved_stations = []
 
 
 def get_saved_stations():
-    global saved_stations
-
     resolved_stations = []
     if len(saved_stations) > 0:
         saved_station_uuids = []
@@ -65,13 +61,11 @@ def get_saved_stations():
 
     station_items = []
     for station in resolved_stations:
-        station_items.append(gui.station_item(station, len(saved_stations) + 1))
+        station_items.append(gui.station_item(station, len(station_items) + 1))
     return station_items
 
 
 def add_saved_station(val, kind):
-    global saved_stations
-
     # TODO: add ability to name saved custom URL stations
     saved_stations.append({kind: val})
     update_saved_stations()
@@ -79,8 +73,6 @@ def add_saved_station(val, kind):
 
 
 def remove_saved_station(val, kind):
-    global saved_stations
-
     saved_stations.remove({kind: val})
     update_saved_stations()
     xbmcgui.Dialog().notification("RadioBrowser²", "Station removed!")
