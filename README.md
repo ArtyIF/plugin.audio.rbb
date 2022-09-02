@@ -30,11 +30,5 @@ This plugin is still in an early stage. Here's what it can do and what's planned
 - - [ ] Of locations and countries
 - - [ ] Of tags, if possible
 
-## Install Guide
-1. Clone the repository
-2. Put all the files in an **UNCOMPRESSED** zip file (can be done on Windows compression ratio can be configured in [7-Zip](https://www.7-zip.org/). For Linux and macOS users, there's a file called `build.sh` that creates the zip file and places it in the `build` directory)
-3. In Kodi, go to "Settings" -> "System" -> "Add-ons", enable "Unknown Sources" and agree to the warning
-4. Go back to the "Settings" menu, then to "Add-ons" -> "Install from zip file" and choose the created zip file
-5. After installation, the add-on will be in "Music add-ons"
-
-From v0.5.0 onwards, I include the pre-zipped add-on in the releases. I also plan to get this on the Kodi official repo someday.
+## Install
+From v0.5.0 to v0.8.0, I included the pre-zipped add-on in the releases. From v0.8.1 onwards, you can install my repository from [here](https://artyif.github.io/repository.artyif/).
