@@ -73,10 +73,10 @@ def add_saved_station(val, kind):
     # TODO: add ability to name saved custom URL stations
     saved_stations.append({kind: val})
     update_saved_stations()
-    xbmcgui.Dialog().notification(_("Station saved!"), _("Saved successfully"))
+    xbmcgui.Dialog().notification(_("Station saved"), _("Saved successfully"))
 
 
 def remove_saved_station(val, kind):
     saved_stations.remove({kind: val})
     update_saved_stations()
-    xbmcgui.Dialog().notification(_("Station removed!"), _("Removed successfully"))
+    xbmcgui.Dialog().notification(_("Station removed"), _("Removed successfully"))

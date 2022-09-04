@@ -345,7 +345,7 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
 
 def open_search_by_name(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading(_("Enter station name"))
+    keyboard.setHeading(_("Enter search string"))
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         open_search_sort_directory(addon_handle, "name", keyboard.getText())
@@ -389,12 +389,12 @@ def vote_for_station(uuid):
 
     if vote_result["ok"]:
         xbmcgui.Dialog().notification(
-            "RadioBrowser²", _("Voted for station successfully!")
+            _("Voted for station"), _("Voted successfully")
         )
     else:
         xbmcgui.Dialog().notification(
-            "RadioBrowser²",
-            _("Voting for station failed: {0}").format(vote_result["message"]),
+            _("Voting error"),
+            _("Voting failed: {0}").format(vote_result["message"]),
         )
 
 

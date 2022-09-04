@@ -54,7 +54,7 @@ def get_appropriate_server():
                 return server_base
             else:
                 raise ConnectionError(
-                    _("requests.get({0}) returned status code {{1}}").format(
+                    _("requests.get({0}) returned status code {1}").format(
                         uri, data.status_code
                     )
                 )
