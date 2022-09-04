@@ -37,7 +37,7 @@ else:
             # TODO: backup instead of deleting
             xbmcgui.Dialog().notification(
                 _(
-                    "JSON decode error occured while loading saved stations, resetting stations..."
+                    "JSON decode error occurred while loading saved stations, resetting stations..."
                 ),
                 str(e),
             )

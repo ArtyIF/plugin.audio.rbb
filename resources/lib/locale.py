@@ -29,7 +29,7 @@ LOCALIZED_STRINGS = {
     30015: "Lowest/undefined bitrate first",
     30016: "Oldest change first",
     30017: "Newest change first",
-    30018: "JSON decode error occured while loading saved stations, resetting stations...",
+    30018: "JSON decode error occurred while loading saved stations, resetting stations...",
     30019: "Saved stations",
     30020: "Most voted stations",
     30021: "Trending stations",
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     print("Generating en_gb PO file...")
 
     PO_HEADER = [
-        "# XBMC Media Center language file",
+        "# Kodi language file",
         "# Addon Name: RadioBrowser²",
         "# Addon id: plugin.audio.rbb",
         "# Addon Provider: ArtyIF",

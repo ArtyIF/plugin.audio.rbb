@@ -1,11 +1,11 @@
-# XBMC Media Center language file
+# Kodi language file
 # Addon Name: RadioBrowser²
 # Addon id: plugin.audio.rbb
 # Addon Provider: ArtyIF
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
-"Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -89,7 +89,7 @@ msgid "Newest change first"
 msgstr ""
 
 msgctxt "#30018"
-msgid "JSON decode error occured while loading saved stations, resetting stations..."
+msgid "JSON decode error occurred while loading saved stations, resetting stations..."
 msgstr ""
 
 msgctxt "#30019"
