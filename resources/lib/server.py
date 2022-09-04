@@ -4,7 +4,7 @@ import requests
 
 from resources.lib.locale import localize_string as _
 
-headers = {"User-Agent": "RadioBrowser2/0.9.0"}
+headers = {"User-Agent": "RadioBrowser2/0.10.0"}
 server_url = ""
 
 

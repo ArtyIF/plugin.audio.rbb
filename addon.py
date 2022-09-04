@@ -17,50 +17,58 @@ def main():
         server.connect()
         routes.get_stations(
             addon_handle,
+            args["title"][0],
             args["kind"][0],
             args.get("page", [0])[0],
             args.get("orderby", ["votes"])[0],
             args.get("reverse", ["true"])[0],
         )
     elif mode[0] == "stations_by":
-        routes.open_stations_directory(addon_handle)
+        routes.open_stations_directory(addon_handle, args["title"][0])
     elif mode[0] == "search":
-        routes.open_search_directory(addon_handle)
+        routes.open_search_directory(addon_handle, args["title"][0])
     elif mode[0] == "stations_sort":
-        routes.open_stations_sort_directory(addon_handle, args["kind"][0])
+        routes.open_stations_sort_directory(
+            addon_handle, args["title"][0], args["kind"][0]
+        )
     elif mode[0] == "countries":
         server.connect()
-        routes.get_countries(addon_handle, args.get("page", [0])[0])
+        routes.get_countries(addon_handle, args["title"][0], args.get("page", [0])[0])
     elif mode[0] == "state_countries":
         server.connect()
-        routes.get_state_countries(addon_handle, args.get("page", [0])[0])
+        routes.get_state_countries(
+            addon_handle, args["title"][0], args.get("page", [0])[0]
+        )
     elif mode[0] == "states":
         server.connect()
         routes.get_states(
-            addon_handle, args.get("country", [""])[0], args.get("page", [0])[0]
+            addon_handle,
+            args["title"][0],
+            args.get("country", [""])[0],
+            args.get("page", [0])[0],
         )
     elif mode[0] == "languages":
         server.connect()
-        routes.get_languages(addon_handle, args.get("page", [0])[0])
+        routes.get_languages(addon_handle, args["title"][0], args.get("page", [0])[0])
     elif mode[0] == "tags":
         server.connect()
-        routes.get_tags(addon_handle, args.get("page", [0])[0])
+        routes.get_tags(addon_handle, args["title"][0], args.get("page", [0])[0])
     elif mode[0] == "codecs":
         server.connect()
-        routes.get_codecs(addon_handle, args.get("page", [0])[0])
+        routes.get_codecs(addon_handle, args["title"][0], args.get("page", [0])[0])
     elif mode[0] == "listen":
         server.connect()
         routes.play(addon_handle, args["url"][0], args.get("uuid", [""])[0])
     elif mode[0] == "search_by_name":
-        routes.open_search_by_name(addon_handle)
+        routes.open_search_by_name(addon_handle, args["title"][0])
     elif mode[0] == "search_by_tags":
-        routes.open_search_by_tags(addon_handle)
+        routes.open_search_by_tags(addon_handle, args["title"][0])
     elif mode[0] == "search_sort":
         routes.open_search_sort_directory(
-            addon_handle, args["kind"][0], args["search_text"][0]
+            addon_handle, args["title"][0], args["kind"][0], args["search_text"][0]
         )
     elif mode[0] == "saved_stations":
-        routes.get_saved_station_stations(addon_handle)
+        routes.get_saved_stations(addon_handle, args["title"][0])
     elif mode[0] == "saved_station_add":
         if args.get("uuid", None):
             saved_stations.add_saved_station(args["uuid"][0], "uuid")
@@ -72,7 +80,7 @@ def main():
         elif args.get("url", None):
             saved_stations.remove_saved_station(args["url"][0], "url")
     elif mode[0] == "custom_url":
-        routes.open_custom_url(addon_handle)
+        routes.open_custom_url(addon_handle, args["title"][0])
     elif mode[0] == "vote":
         server.connect()
         routes.vote_for_station(args["uuid"][0])
@@ -80,6 +88,7 @@ def main():
         server.connect()
         routes.perform_search(
             addon_handle,
+            args["title"][0],
             args.get("kind", ["name"])[0],
             args["search_text"][0],
             args.get("orderby", ["votes"])[0],
