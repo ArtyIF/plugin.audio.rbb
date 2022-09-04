@@ -1,9 +1,26 @@
+"""A module that stores common GUI functions."""
+
 import xbmcgui
-from resources.lib import utils, saved_stations
+
+from resources.lib import saved_stations, utils
 from resources.lib.locale import localize_string as _
 
 
-def directory_item(label, mode, **kwargs):
+def directory_item(
+    label: str, mode: str, **kwargs: dict[str, str]
+) -> tuple[str, xbmcgui.ListItem, bool]:
+    """
+    The directory item. Returns a `xbmcgui.ListItem` that goes to `mode`
+    with `kwargs` as parameters when selected.
+
+    Args:
+        label (str): `ListItem`'s label shown to the user.
+        mode (str): The mode that is passed to the plugin. Used to find a matching route.
+        kwargs (dict[str, str]): The parameters passed to the plugin, then to the route.
+
+    Returns:
+        tuple[str, xbmcgui.ListItem, bool]: The tuple to be used with `xbmcgui.addDirectoryItems`.
+    """
     list_item = xbmcgui.ListItem(label)
     query = {"mode": mode}
     query.update(kwargs)
@@ -11,7 +28,9 @@ def directory_item(label, mode, **kwargs):
     return (url, list_item, True)
 
 
-def next_page_item(response, mode, current_page, **kwargs):
+def next_page_item(
+    response: str, mode: str, current_page: int, **kwargs: dict[str, str]
+) -> tuple[str, xbmcgui.ListItem, bool]:
     if len(response) == 50:
         list_item = xbmcgui.ListItem(_("Next page"))
         list_item.setInfo(
@@ -24,7 +43,9 @@ def next_page_item(response, mode, current_page, **kwargs):
         return (url, list_item, True)
 
 
-def station_item(station, number):
+def station_item(
+    station: dict | str, number: str
+) -> tuple[str, xbmcgui.ListItem, bool]:
     resolved = isinstance(station, dict)
 
     if resolved:
@@ -139,7 +160,9 @@ def station_item(station, number):
     return (url, list_item, False)
 
 
-def sort_menu(mode, **kwargs):
+def sort_menu(
+    mode: str, **kwargs: dict[str, str]
+) -> list[tuple[str, xbmcgui.ListItem, bool]]:
     menu_list = []
 
     query = {"orderby": "votes", "reverse": "true"}

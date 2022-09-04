@@ -1,12 +1,14 @@
-import os
+"""A module that stores functions for working with saved stations."""
+
 import json
+import os
 from pathlib import Path
+
 import xbmcgui
 import xbmcvfs
 
-from resources.lib import server, gui
+from resources.lib import gui, server
 from resources.lib.locale import localize_string as _
-
 
 saved_stations = []
 SAVED_STATIONS_PATH = xbmcvfs.translatePath(

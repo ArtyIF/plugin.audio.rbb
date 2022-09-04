@@ -1,8 +1,10 @@
+"""A module that stores all routes in the plugin, routes being sort of like paths in a website."""
+
 import xbmc
 import xbmcgui
 import xbmcplugin
 
-from resources.lib import server, utils, gui, saved_stations
+from resources.lib import gui, saved_stations, server, utils
 from resources.lib.locale import localize_string as _
 
 
@@ -388,9 +390,7 @@ def vote_for_station(uuid):
     vote_result = server.post("/vote/" + uuid).json()
 
     if vote_result["ok"]:
-        xbmcgui.Dialog().notification(
-            _("Voted for station"), _("Voted successfully")
-        )
+        xbmcgui.Dialog().notification(_("Voted for station"), _("Voted successfully"))
     else:
         xbmcgui.Dialog().notification(
             _("Voting error"),

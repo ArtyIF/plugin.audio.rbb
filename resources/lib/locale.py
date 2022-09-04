@@ -1,3 +1,4 @@
+"""A module that stores common localization functions."""
 import xbmc
 import xbmcaddon
 

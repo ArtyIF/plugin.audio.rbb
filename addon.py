@@ -1,8 +1,11 @@
+"""The entry point of the plugin."""
+
 import sys
 from urllib.parse import parse_qs
+
 import xbmcgui
 
-from resources.lib import routes, server, saved_stations
+from resources.lib import routes, saved_stations, server
 from resources.lib.locale import localize_string as _
 
 
