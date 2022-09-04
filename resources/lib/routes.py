@@ -345,7 +345,7 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
 
 def open_search_by_name(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading(_("Enter search string"))
+    keyboard.setHeading(_("Enter station name"))
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         open_search_sort_directory(addon_handle, "name", keyboard.getText())
