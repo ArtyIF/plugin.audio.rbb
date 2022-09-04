@@ -102,17 +102,17 @@ if __name__ == "__main__":
         "# Addon Provider: ArtyIF",
         'msgid ""',
         'msgstr ""',
-        '"Project-Id-Version: XBMC-Addons\n"',
-        '"Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues\n"',
-        '"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"',
-        '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"',
-        '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"',
-        '"Language-Team: LANGUAGE\n"',
-        '"MIME-Version: 1.0\n"',
-        '"Content-Type: text/plain; charset=UTF-8\n"',
-        '"Content-Transfer-Encoding: 8bit\n"',
-        '"Language: en\n"',
-        '"Plural-Forms: nplurals=2; plural=(n != 1)\n"',
+        '"Project-Id-Version: XBMC-Addons\\n"',
+        '"Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues\\n"',
+        '"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\\n"',
+        '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n"',
+        '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n"',
+        '"Language-Team: LANGUAGE\\n"',
+        '"MIME-Version: 1.0\\n"',
+        '"Content-Type: text/plain; charset=UTF-8\\n"',
+        '"Content-Transfer-Encoding: 8bit\\n"',
+        '"Language: en\\n"',
+        '"Plural-Forms: nplurals=2; plural=(n != 1)\\n"',
         "",
     ]
 
@@ -123,11 +123,11 @@ if __name__ == "__main__":
         if 30000 <= k < 33000:
             lines_to_write.append(f'msgctxt "#{k}"')
             lines_to_write.append(f'msgid "{v}"')
-            lines_to_write.append(f'msgstr "#{k}"')
+            lines_to_write.append('msgstr ""')
             lines_to_write.append('')
 
     with open('strings.po', 'w+', encoding='utf-8') as file:
-        file.writelines(lines_to_write)
+        file.write('\n'.join(lines_to_write))
 
     print("Done! It should be where you are right now.")
     print("Check it for mistakes, then put it in:")
