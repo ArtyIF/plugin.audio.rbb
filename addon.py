@@ -3,6 +3,7 @@ from urllib.parse import parse_qs
 import xbmcgui
 
 from resources.lib import routes, server, saved_stations
+from resources.lib.locale import localize_string as _
 
 
 def main():
@@ -55,7 +56,9 @@ def main():
     elif mode[0] == "search_by_tags":
         routes.open_search_by_tags(addon_handle)
     elif mode[0] == "search_sort":
-        routes.open_search_sort_directory(addon_handle, args["kind"][0], args["search_text"][0])
+        routes.open_search_sort_directory(
+            addon_handle, args["kind"][0], args["search_text"][0]
+        )
     elif mode[0] == "saved_stations":
         routes.get_saved_station_stations(addon_handle)
     elif mode[0] == "saved_station_add":
@@ -86,8 +89,9 @@ def main():
     else:
         notif = xbmcgui.Dialog()
         notif.notification(
-            "RadioBrowser² internal error! Tell the developer!",
-            "Add-on tried to access a non-existent mode: %s (all arguments: %s)" % (mode[0], args),
+            _("RadioBrowser² internal error! Tell the developer!"),
+            _("Add-on tried to access a non-existent mode: %s (all arguments: %s)")
+            % (mode[0], args),
             xbmcgui.NOTIFICATION_ERROR,
         )
 
