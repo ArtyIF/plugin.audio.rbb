@@ -23,8 +23,11 @@ def localize_context(str_id: int):
 
 
 def localize_string(unlocalized_string: str):
-    return localize_context(
-        list(LOCALIZED_STRINGS.keys())[
-            list(LOCALIZED_STRINGS.values()).index(unlocalized_string)
-        ]
-    )
+    try:
+        return localize_context(
+            list(LOCALIZED_STRINGS.keys())[
+                list(LOCALIZED_STRINGS.values()).index(unlocalized_string)
+            ]
+        )
+    except ValueError:
+        return f"NO TRANSLATION FOUND FOR {unlocalized_string}"
