@@ -8,21 +8,21 @@ from resources.lib.locale import localize_string as _
 
 def root(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item(_("Saved Stations"), "saved_stations"))
+    menu_list.append(gui.directory_item(_("Saved stations"), "saved_stations"))
     menu_list.append(
-        gui.directory_item(_("Most Voted Stations"), "stations", kind="topvote")
+        gui.directory_item(_("Most voted stations"), "stations", kind="topvote")
     )
     menu_list.append(
-        gui.directory_item(_("Trending Stations"), "stations", kind="topclick")
+        gui.directory_item(_("Trending stations"), "stations", kind="topclick")
     )
     menu_list.append(
         gui.directory_item(
-            _("Stations Recently Played by Others"), "stations", kind="lastclick"
+            _("Stations recently played by others"), "stations", kind="lastclick"
         )
     )
     menu_list.append(
         gui.directory_item(
-            _("Recently Added/Changed Stations"), "stations", kind="lastchange"
+            _("Recently added/changed stations"), "stations", kind="lastchange"
         )
     )
     menu_list.append(gui.directory_item(_("Stations by..."), "stations_by"))
@@ -68,12 +68,12 @@ def get_stations(addon_handle, kind, page, orderby, reverse):
 
 def open_stations_directory(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item(_("Stations by Country"), "countries"))
-    menu_list.append(gui.directory_item(_("Stations by State"), "state_countries"))
-    menu_list.append(gui.directory_item(_("Stations by Language"), "languages"))
-    menu_list.append(gui.directory_item(_("Stations by Tag"), "tags"))
-    menu_list.append(gui.directory_item(_("Stations by Codec"), "codecs"))
-    menu_list.append(gui.directory_item(_("All Stations"), "stations_sort", kind="all"))
+    menu_list.append(gui.directory_item(_("Stations by country"), "countries"))
+    menu_list.append(gui.directory_item(_("Stations by state"), "state_countries"))
+    menu_list.append(gui.directory_item(_("Stations by language"), "languages"))
+    menu_list.append(gui.directory_item(_("Stations by tag"), "tags"))
+    menu_list.append(gui.directory_item(_("Stations by codec"), "codecs"))
+    menu_list.append(gui.directory_item(_("All stations"), "stations_sort", kind="all"))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
@@ -81,8 +81,8 @@ def open_stations_directory(addon_handle):
 
 def open_search_directory(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item(_("Search by Name"), "search_by_name"))
-    menu_list.append(gui.directory_item(_("Search by Tags"), "search_by_tags"))
+    menu_list.append(gui.directory_item(_("Search by name"), "search_by_name"))
+    menu_list.append(gui.directory_item(_("Search by tags"), "search_by_tags"))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)

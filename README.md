@@ -23,7 +23,7 @@ This plugin is still in an early stage. Here's what it can do and what's planned
 - [x] Let the user choose to sort stations
 - [x] Filter states by country
 - [x] Search stations by name and tags
-- [x] Add/remove stations to/from Saved Stations
+- [x] Add/remove stations to/from saved stations
 - [x] Vote for stations
 - [ ] Localization:
 - - [ ] Of the main interface

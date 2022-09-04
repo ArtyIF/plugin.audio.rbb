@@ -78,7 +78,7 @@ def station_item(station, number):
         if not saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
             context_menu_items.append(
                 (
-                    _("Add to Saved Stations"),
+                    _("Add to saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url(
                         {
@@ -91,7 +91,7 @@ def station_item(station, number):
         else:
             context_menu_items.append(
                 (
-                    _("Remove from Saved Stations"),
+                    _("Remove from saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url(
                         {
@@ -103,7 +103,7 @@ def station_item(station, number):
             )
         context_menu_items.append(
             (
-                _("Vote for Station"),
+                _("Vote for station"),
                 "RunPlugin(%s)"
                 % utils.build_url({"mode": "vote", "uuid": station["stationuuid"]}),
             )
@@ -120,7 +120,7 @@ def station_item(station, number):
         if not saved_stations.is_in_saved_stations(station, "url"):
             context_menu_items.append(
                 (
-                    _("Add to Saved Stations"),
+                    _("Add to saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url({"mode": "saved_station_add", "url": station}),
                 )
@@ -128,7 +128,7 @@ def station_item(station, number):
         else:
             context_menu_items.append(
                 (
-                    _("Remove from Saved Stations"),
+                    _("Remove from saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url({"mode": "saved_station_remove", "url": station}),
                 )
@@ -144,19 +144,19 @@ def sort_menu(mode, **kwargs):
 
     query = {"orderby": "votes", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Most Voted First"), mode, **query))
+    menu_list.append(directory_item(_("Most voted first"), mode, **query))
 
     query = {"orderby": "votes", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Least Voted First"), mode, **query))
+    menu_list.append(directory_item(_("Least voted first"), mode, **query))
 
     query = {"orderby": "clickcount", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Most Listeners First"), mode, **query))
+    menu_list.append(directory_item(_("Most listeners first"), mode, **query))
 
     query = {"orderby": "clickcount", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Least Listeners First"), mode, **query))
+    menu_list.append(directory_item(_("Least listeners first"), mode, **query))
 
     query = {"orderby": "name", "reverse": "false"}
     query.update(kwargs)
@@ -168,19 +168,19 @@ def sort_menu(mode, **kwargs):
 
     query = {"orderby": "bitrate", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Highest Bitrate First"), mode, **query))
+    menu_list.append(directory_item(_("Highest bitrate first"), mode, **query))
 
     query = {"orderby": "bitrate", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Lowest/Undefined Bitrate First"), mode, **query))
+    menu_list.append(directory_item(_("Lowest/undefined bitrate first"), mode, **query))
 
     query = {"orderby": "changetimestamp", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Oldest Change First"), mode, **query))
+    menu_list.append(directory_item(_("Oldest change first"), mode, **query))
 
     query = {"orderby": "changetimestamp", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item(_("Newest Change First"), mode, **query))
+    menu_list.append(directory_item(_("Newest change first"), mode, **query))
 
     query = {"orderby": "random", "reverse": "false"}
     query.update(kwargs)
