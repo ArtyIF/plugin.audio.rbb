@@ -9,13 +9,17 @@ server_url = ""
 def get(path, params={}, **kwargs):
     if server_url == "":
         raise ConnectionError("Not connected to server")
-    return requests.get(server_url + path, headers=headers, params=params, timeout=5.0, **kwargs)
+    return requests.get(
+        server_url + path, headers=headers, params=params, timeout=5.0, **kwargs
+    )
 
 
 def post(path, params={}, **kwargs):
     if server_url == "":
         raise ConnectionError("Not connected to server")
-    return requests.post(server_url + path, headers=headers, params=params, timeout=5.0, **kwargs)
+    return requests.post(
+        server_url + path, headers=headers, params=params, timeout=5.0, **kwargs
+    )
 
 
 # from https://api.radio-browser.info/examples/serverlist_python3.py
@@ -47,7 +51,9 @@ def get_appropriate_server():
                 return server_base
             else:
                 raise ConnectionError(
-                    "requests.get(%s) returned status code {%i}" % (uri, data.status_code)
+                    "requests.get({0}) returned status code {{1}}".format(
+                        uri, data.status_code
+                    )
                 )
         except ConnectionError:
             continue

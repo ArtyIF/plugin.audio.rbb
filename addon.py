@@ -90,8 +90,9 @@ def main():
         notif = xbmcgui.Dialog()
         notif.notification(
             _("RadioBrowser² internal error! Tell the developer!"),
-            _("Add-on tried to access a non-existent mode: %s (all arguments: %s)")
-            % (mode[0], args),
+            _(
+                "Add-on tried to access a non-existent mode: {0} (all arguments: {1})"
+            ).format(mode[0], args),
             xbmcgui.NOTIFICATION_ERROR,
         )
 

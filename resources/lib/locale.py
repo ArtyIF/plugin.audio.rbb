@@ -11,8 +11,8 @@ ADDON = xbmcaddon.Addon()
 LOCALIZED_STRINGS = {
     19140: "Search...", # TODO: check if this the string that's needed
     30000: "RadioBrowser² internal error! Tell the developer!",
-    30001: "Add-on tried to access a non-existent mode: %s (all arguments: %s)",
-    30002: "Page %i",
+    30001: "Add-on tried to access a non-existent mode: {0} (all arguments: {1})",
+    30002: "Page {0}",
     33078: "Next page",
 }
 

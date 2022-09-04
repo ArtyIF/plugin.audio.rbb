@@ -113,7 +113,7 @@ def get_countries(addon_handle, page):
             {
                 "title": category["name"],
                 "count": category["stationcount"],
-                "genre": _("%i stations") % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -144,10 +144,9 @@ def get_state_countries(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": _("%i total stations")
-                % category[
+                "genre": _("{0} total stations").format(category[
                     "stationcount"
-                ],  # TODO: replace with state count if possible
+                ]),  # TODO: replace with state count if possible
             },
         )
         url = utils.build_url({"mode": "states", "country": category["name"]})
@@ -181,7 +180,7 @@ def get_states(addon_handle, country, page):
             "music",
             {
                 "title": category["name"],
-                "genre": _("%i stations") % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -219,7 +218,7 @@ def get_languages(addon_handle, page):
             "music",
             {
                 "title": category["name"].title(),
-                "genre": _("%i stations") % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -255,7 +254,7 @@ def get_tags(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": _("%i stations") % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -291,7 +290,7 @@ def get_codecs(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": _("%i stations") % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -394,7 +393,7 @@ def vote_for_station(uuid):
         )
     else:
         xbmcgui.Dialog().notification(
-            "RadioBrowser²", _("Voting for station failed: %s") % vote_result["message"]
+            "RadioBrowser²", _("Voting for station failed: {0}").format(vote_result["message"])
         )
 
 
