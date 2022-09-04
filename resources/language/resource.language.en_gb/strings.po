@@ -4,7 +4,7 @@
 # Addon Provider: ArtyIF
 msgid ""
 msgstr ""
-"Project-Id-Version: XBMC-Addons\n"
+"Project-Id-Version: RadioBrowser²\n"
 "Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -201,7 +201,7 @@ msgid "Station removed"
 msgstr ""
 
 msgctxt "#30046"
-msgid "Remove successfully"
+msgid "Removed successfully"
 msgstr ""
 
 msgctxt "#30047"

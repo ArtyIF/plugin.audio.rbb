@@ -1,0 +1,218 @@
+# Kodi language file
+# Addon Name: RadioBrowser²
+# Addon id: plugin.audio.rbb
+# Addon Provider: ArtyIF
+msgid ""
+msgstr ""
+"Project-Id-Version: RadioBrowser²\n"
+"Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2022-09-04 14:19+0300\n"
+"Last-Translator: Artyom \"ArtyIF\" Fomin <artyomisflash@mail.ru>\n"
+"Language-Team: LANGUAGE\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.1.1\n"
+
+msgctxt "#30000"
+msgid "RadioBrowser² internal error! Tell the developer!"
+msgstr "Внутрення ошибка RadioBrowser²! Сообщите разработчику!"
+
+msgctxt "#30001"
+msgid "Add-on tried to access a non-existent mode: {0} (all arguments: {1})"
+msgstr "Дополнение попыталось использовать несуществующий режим: {0} (все параметры: {1})"
+
+msgctxt "#30002"
+msgid "Page {0}"
+msgstr "Страница {0}"
+
+msgctxt "#30003"
+msgid "[B]{0} votes[/B]"
+msgstr "[B]{0} голосов[/B]"
+
+msgctxt "#30004"
+msgid "[B]Offline![/B]"
+msgstr "[B]Не в сети![/B]"
+
+msgctxt "#30005"
+msgid "Add to saved stations"
+msgstr "Добавить в сохранённые станции"
+
+msgctxt "#30006"
+msgid "Remove from saved stations"
+msgstr "Удалить из сохранённых станций"
+
+msgctxt "#30007"
+msgid "Vote for station"
+msgstr "Проголосовать за станцию"
+
+msgctxt "#30008"
+msgid "Most voted first"
+msgstr "Сначала больше голосов"
+
+msgctxt "#30009"
+msgid "Least voted first"
+msgstr "Сначала меньше голосов"
+
+msgctxt "#30010"
+msgid "Most listeners first"
+msgstr "Сначала больше слушателей"
+
+msgctxt "#30011"
+msgid "Least listeners first"
+msgstr "Сначала меньше слушателей"
+
+msgctxt "#30012"
+msgid "A-Z"
+msgstr "А-Я"
+
+msgctxt "#30013"
+msgid "Z-A"
+msgstr "Я-А"
+
+msgctxt "#30014"
+msgid "Highest bitrate first"
+msgstr "Сначала лучше качество"
+
+msgctxt "#30015"
+msgid "Lowest/undefined bitrate first"
+msgstr "Сначала ниже/неизвестное качество"
+
+msgctxt "#30016"
+msgid "Oldest change first"
+msgstr "Сначала старые"
+
+msgctxt "#30017"
+msgid "Newest change first"
+msgstr "Сначала новые"
+
+msgctxt "#30018"
+msgid "JSON decode error occurred while loading saved stations, resetting stations..."
+msgstr "При загрузке сохранённых станций произошла ошибка расшифровки файла JSON, станции сбрасываются..."
+
+msgctxt "#30019"
+msgid "Saved stations"
+msgstr "Сохранённые станции"
+
+msgctxt "#30020"
+msgid "Most voted stations"
+msgstr "Самые любимые станции"
+
+msgctxt "#30021"
+msgid "Trending stations"
+msgstr "Станции в тренде"
+
+msgctxt "#30022"
+msgid "Stations recently played by others"
+msgstr "Станции, недавно прослушанные другими"
+
+msgctxt "#30023"
+msgid "Recently added/changed stations"
+msgstr "Недавно добавленные/изменённые станции"
+
+msgctxt "#30024"
+msgid "Stations by..."
+msgstr "Станции по..."
+
+msgctxt "#30025"
+msgid "Custom URL"
+msgstr "Пользовательский URL"
+
+msgctxt "#30026"
+msgid "Stations by country"
+msgstr "Станции по странам"
+
+msgctxt "#30027"
+msgid "Stations by state"
+msgstr "Станции по штатам"
+
+msgctxt "#30028"
+msgid "Stations by language"
+msgstr "Станции по языкам"
+
+msgctxt "#30029"
+msgid "Stations by tag"
+msgstr "Станции по тегам"
+
+msgctxt "#30030"
+msgid "Stations by codec"
+msgstr "Станции по кодекам"
+
+msgctxt "#30031"
+msgid "All stations"
+msgstr "Все станции"
+
+msgctxt "#30032"
+msgid "Search by name"
+msgstr "Поиск по имени"
+
+msgctxt "#30033"
+msgid "Search by tags"
+msgstr "Поиск по тегам"
+
+msgctxt "#30034"
+msgid "{0} stations"
+msgstr "{0} станций"
+
+msgctxt "#30035"
+msgid "{0} total stations"
+msgstr "Всего {0} станций"
+
+msgctxt "#30036"
+msgid "Enter station name"
+msgstr "Введите название станции"
+
+msgctxt "#30037"
+msgid "Enter comma-separated tags"
+msgstr "Введите теги, разделяя их запятыми"
+
+msgctxt "#30038"
+msgid "Enter stream URL"
+msgstr "Введите URL потока"
+
+msgctxt "#30039"
+msgid "Voted for station"
+msgstr "Голос за станцию отправлен"
+
+msgctxt "#30040"
+msgid "Voted successfully"
+msgstr "Голос прошёл успешно"
+
+msgctxt "#30041"
+msgid "Voting error"
+msgstr "Ошибка при голосовании"
+
+msgctxt "#30042"
+msgid "Voting failed: {0}"
+msgstr "Не удалось отправить голос: {0}"
+
+msgctxt "#30043"
+msgid "Station saved"
+msgstr "Станция сохранена"
+
+msgctxt "#30044"
+msgid "Saved successfully"
+msgstr "Сохранение прошло успешно"
+
+msgctxt "#30045"
+msgid "Station removed"
+msgstr "Станция удалена"
+
+msgctxt "#30046"
+msgid "Removed successfully"
+msgstr "Удаление прошло успешно"
+
+msgctxt "#30047"
+msgid "Not connected to server"
+msgstr "Нет подключения к серверу"
+
+msgctxt "#30048"
+msgid "requests.get({0}) returned status code {1}"
+msgstr "requests.get({0}) вернул код ошибки {1}"
+
+msgctxt "#30049"
+msgid "Could not connect to any of radio-browser.info servers"
+msgstr "Не получилось подключиться ни к одному из серверов radio-browser.info"

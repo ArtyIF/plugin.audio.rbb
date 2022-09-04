@@ -57,7 +57,7 @@ LOCALIZED_STRINGS = {
     30043: "Station saved",
     30044: "Saved successfully",
     30045: "Station removed",
-    30046: "Remove successfully",
+    30046: "Removed successfully",
     30047: "Not connected to server",
     30048: "requests.get({0}) returned status code {1}",
     30049: "Could not connect to any of radio-browser.info servers",
