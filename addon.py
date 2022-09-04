@@ -37,7 +37,7 @@ def main():
     elif mode[0] == "states":
         server.connect()
         routes.get_states(
-            addon_handle, args.get("state", [""])[0], args.get("page", [0])[0]
+            addon_handle, args.get("country", [""])[0], args.get("page", [0])[0]
         )
     elif mode[0] == "languages":
         server.connect()
