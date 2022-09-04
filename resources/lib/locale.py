@@ -9,6 +9,7 @@ ADDON = xbmcaddon.Addon()
 # Built-in strings from:
 # https://github.com/xbmc/xbmc/blob/master/addons/resource.language.en_gb/resources/strings.po
 LOCALIZED_STRINGS = {
+    590: "Random",
     16017: "Enter search string",
     19140: "Search...",
     30000: "RadioBrowser² internal error! Tell the developer!",
@@ -29,7 +30,6 @@ LOCALIZED_STRINGS = {
     30015: "Lowest/Undefined Bitrate First",
     30016: "Oldest Change First",
     30017: "Newest Change First",
-    30018: "Random",
     30019: "Saved Stations",
     30020: "Most Voted Stations",
     30021: "Trending Stations",
