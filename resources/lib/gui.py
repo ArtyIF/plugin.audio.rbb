@@ -174,13 +174,13 @@ def sort_menu(mode, **kwargs):
     query.update(kwargs)
     menu_list.append(directory_item(_("Lowest/undefined bitrate first"), mode, **query))
 
-    query = {"orderby": "changetimestamp", "reverse": "false"}
-    query.update(kwargs)
-    menu_list.append(directory_item(_("Oldest change first"), mode, **query))
-
     query = {"orderby": "changetimestamp", "reverse": "true"}
     query.update(kwargs)
     menu_list.append(directory_item(_("Newest change first"), mode, **query))
+
+    query = {"orderby": "changetimestamp", "reverse": "false"}
+    query.update(kwargs)
+    menu_list.append(directory_item(_("Oldest change first"), mode, **query))
 
     query = {"orderby": "random", "reverse": "false"}
     query.update(kwargs)
