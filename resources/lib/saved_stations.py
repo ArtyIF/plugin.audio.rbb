@@ -3,7 +3,9 @@ import json
 from pathlib import Path
 import xbmcgui
 import xbmcvfs
+
 from resources.lib import server, gui
+from resources.lib.locale import localize_string as _
 
 
 saved_stations = []
@@ -34,7 +36,9 @@ else:
         except json.JSONDecodeError as e:
             # TODO: backup instead of deleting
             xbmcgui.Dialog().notification(
-                "JSON decode error occured while loading saved stations, resetting stations...",
+                _(
+                    "JSON decode error occurred while loading saved stations, resetting stations..."
+                ),
                 str(e),
             )
             saved_stations_file.seek(0)
@@ -69,10 +73,10 @@ def add_saved_station(val, kind):
     # TODO: add ability to name saved custom URL stations
     saved_stations.append({kind: val})
     update_saved_stations()
-    xbmcgui.Dialog().notification("RadioBrowser²", "Station saved!")
+    xbmcgui.Dialog().notification(_("Station saved"), _("Saved successfully"))
 
 
 def remove_saved_station(val, kind):
     saved_stations.remove({kind: val})
     update_saved_stations()
-    xbmcgui.Dialog().notification("RadioBrowser²", "Station removed!")
+    xbmcgui.Dialog().notification(_("Station removed"), _("Removed successfully"))

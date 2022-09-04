@@ -3,30 +3,31 @@ import xbmcgui
 import xbmcplugin
 
 from resources.lib import server, utils, gui, saved_stations
+from resources.lib.locale import localize_string as _
 
 
 def root(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item("Saved Stations", "saved_stations"))
+    menu_list.append(gui.directory_item(_("Saved stations"), "saved_stations"))
     menu_list.append(
-        gui.directory_item("Most Voted Stations", "stations", kind="topvote")
+        gui.directory_item(_("Most voted stations"), "stations", kind="topvote")
     )
     menu_list.append(
-        gui.directory_item("Trending Stations", "stations", kind="topclick")
+        gui.directory_item(_("Trending stations"), "stations", kind="topclick")
     )
     menu_list.append(
         gui.directory_item(
-            "Stations Recently Played by Others", "stations", kind="lastclick"
+            _("Stations recently played by others"), "stations", kind="lastclick"
         )
     )
     menu_list.append(
         gui.directory_item(
-            "Recently Added/Changed Stations", "stations", kind="lastchange"
+            _("Recently added/changed stations"), "stations", kind="lastchange"
         )
     )
-    menu_list.append(gui.directory_item("Stations by...", "stations_by"))
-    menu_list.append(gui.directory_item("Search...", "search"))
-    menu_list.append(gui.directory_item("Custom URL", "custom_url"))
+    menu_list.append(gui.directory_item(_("Stations by..."), "stations_by"))
+    menu_list.append(gui.directory_item(_("Search..."), "search"))
+    menu_list.append(gui.directory_item(_("Custom URL"), "custom_url"))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
@@ -67,12 +68,12 @@ def get_stations(addon_handle, kind, page, orderby, reverse):
 
 def open_stations_directory(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item("Stations by Country", "countries"))
-    menu_list.append(gui.directory_item("Stations by State", "state_countries"))
-    menu_list.append(gui.directory_item("Stations by Language", "languages"))
-    menu_list.append(gui.directory_item("Stations by Tag", "tags"))
-    menu_list.append(gui.directory_item("Stations by Codec", "codecs"))
-    menu_list.append(gui.directory_item("All Stations", "stations_sort", kind="all"))
+    menu_list.append(gui.directory_item(_("Stations by country"), "countries"))
+    menu_list.append(gui.directory_item(_("Stations by state"), "state_countries"))
+    menu_list.append(gui.directory_item(_("Stations by language"), "languages"))
+    menu_list.append(gui.directory_item(_("Stations by tag"), "tags"))
+    menu_list.append(gui.directory_item(_("Stations by codec"), "codecs"))
+    menu_list.append(gui.directory_item(_("All stations"), "stations_sort", kind="all"))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
@@ -80,8 +81,8 @@ def open_stations_directory(addon_handle):
 
 def open_search_directory(addon_handle):
     menu_list = []
-    menu_list.append(gui.directory_item("Search by Name", "search_by_name"))
-    menu_list.append(gui.directory_item("Search by Tags", "search_by_tags"))
+    menu_list.append(gui.directory_item(_("Search by name"), "search_by_name"))
+    menu_list.append(gui.directory_item(_("Search by tags"), "search_by_tags"))
 
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
@@ -112,7 +113,7 @@ def get_countries(addon_handle, page):
             {
                 "title": category["name"],
                 "count": category["stationcount"],
-                "genre": "%i stations" % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -143,13 +144,12 @@ def get_state_countries(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": "%i total stations"
-                % category[
-                    "stationcount"
-                ],  # TODO: replace with state count if possible
+                "genre": _("{0} total stations").format(
+                    category["stationcount"]
+                ),  # TODO: replace with state count if possible
             },
         )
-        url = utils.build_url({"mode": "states", "state": category["name"]})
+        url = utils.build_url({"mode": "states", "country": category["name"]})
         state_countries_list.append((url, list_item, True))
 
     state_countries_list.append(gui.next_page_item(response, "state_countries", page))
@@ -160,10 +160,10 @@ def get_state_countries(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_states(addon_handle, state, page):
+def get_states(addon_handle, country, page):
     page = int(page)
     response = server.get(
-        f"/states/{state}/",
+        f"/states/{country}/",
         {
             "offset": page * 50,
             "limit": 50,
@@ -180,7 +180,7 @@ def get_states(addon_handle, state, page):
             "music",
             {
                 "title": category["name"],
-                "genre": "%i stations" % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -190,7 +190,7 @@ def get_states(addon_handle, state, page):
         )
         states_list.append((url, list_item, True))
 
-    states_list.append(gui.next_page_item(response, "countries", page, state=state))
+    states_list.append(gui.next_page_item(response, "countries", page, country=country))
     states_list = [i for i in states_list if i]
 
     xbmcplugin.addDirectoryItems(addon_handle, states_list)
@@ -218,7 +218,7 @@ def get_languages(addon_handle, page):
             "music",
             {
                 "title": category["name"].title(),
-                "genre": "%i stations" % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -254,7 +254,7 @@ def get_tags(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": "%i stations" % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -290,7 +290,7 @@ def get_codecs(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": "%i stations" % category["stationcount"],
+                "genre": _("{0} stations").format(category["stationcount"]),
             },
         )
         url = utils.build_url(
@@ -345,7 +345,7 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
 
 def open_search_by_name(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading("Enter station name")
+    keyboard.setHeading(_("Enter station name"))
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         open_search_sort_directory(addon_handle, "name", keyboard.getText())
@@ -353,7 +353,7 @@ def open_search_by_name(addon_handle):
 
 def open_search_by_tags(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading("Enter comma-separated tags")
+    keyboard.setHeading(_("Enter comma-separated tags"))
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         open_search_sort_directory(
@@ -365,7 +365,7 @@ def open_search_by_tags(addon_handle):
 
 def open_custom_url(addon_handle):
     keyboard = xbmc.Keyboard()
-    keyboard.setHeading("Enter stream URL")
+    keyboard.setHeading(_("Enter stream URL"))
     keyboard.doModal()
     if keyboard.isConfirmed() and len(keyboard.getText()) > 0:
         gui.station_item(keyboard.getText(), 1)
@@ -389,11 +389,12 @@ def vote_for_station(uuid):
 
     if vote_result["ok"]:
         xbmcgui.Dialog().notification(
-            "RadioBrowser²", "Voted for station successfully!"
+            _("Voted for station"), _("Voted successfully")
         )
     else:
         xbmcgui.Dialog().notification(
-            "RadioBrowser²", "Voting for station failed: " + vote_result["message"]
+            _("Voting error"),
+            _("Voting failed: {0}").format(vote_result["message"]),
         )
 
 
@@ -403,6 +404,6 @@ def play(addon_handle, path, uuid):
         click_counter_result = server.post("/url/" + uuid).json()
         xbmcplugin.setResolvedUrl(
             addon_handle, click_counter_result.get("ok", False), list_item
-        )
+        )  # TODO: add action in case ok is false
     else:
         xbmcplugin.setResolvedUrl(addon_handle, True, list_item)

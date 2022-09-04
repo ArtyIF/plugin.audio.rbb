@@ -1,0 +1,217 @@
+# Kodi language file
+# Addon Name: RadioBrowser²
+# Addon id: plugin.audio.rbb
+# Addon Provider: ArtyIF
+msgid ""
+msgstr ""
+"Project-Id-Version: RadioBrowser²\n"
+"Report-Msgid-Bugs-To: https://github.com/ArtyIF/plugin.audio.rbb/issues \n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "#30000"
+msgid "RadioBrowser² internal error! Tell the developer!"
+msgstr ""
+
+msgctxt "#30001"
+msgid "Add-on tried to access a non-existent mode: {0} (all arguments: {1})"
+msgstr ""
+
+msgctxt "#30002"
+msgid "Page {0}"
+msgstr ""
+
+msgctxt "#30003"
+msgid "[B]{0} votes[/B]"
+msgstr ""
+
+msgctxt "#30004"
+msgid "[B]Offline![/B]"
+msgstr ""
+
+msgctxt "#30005"
+msgid "Add to saved stations"
+msgstr ""
+
+msgctxt "#30006"
+msgid "Remove from saved stations"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Vote for station"
+msgstr ""
+
+msgctxt "#30008"
+msgid "Most voted first"
+msgstr ""
+
+msgctxt "#30009"
+msgid "Least voted first"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Most listeners first"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Least listeners first"
+msgstr ""
+
+msgctxt "#30012"
+msgid "A-Z"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Z-A"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Highest bitrate first"
+msgstr ""
+
+msgctxt "#30015"
+msgid "Lowest/undefined bitrate first"
+msgstr ""
+
+msgctxt "#30016"
+msgid "Oldest change first"
+msgstr ""
+
+msgctxt "#30017"
+msgid "Newest change first"
+msgstr ""
+
+msgctxt "#30018"
+msgid "JSON decode error occurred while loading saved stations, resetting stations..."
+msgstr ""
+
+msgctxt "#30019"
+msgid "Saved stations"
+msgstr ""
+
+msgctxt "#30020"
+msgid "Most voted stations"
+msgstr ""
+
+msgctxt "#30021"
+msgid "Trending stations"
+msgstr ""
+
+msgctxt "#30022"
+msgid "Stations recently played by others"
+msgstr ""
+
+msgctxt "#30023"
+msgid "Recently added/changed stations"
+msgstr ""
+
+msgctxt "#30024"
+msgid "Stations by..."
+msgstr ""
+
+msgctxt "#30025"
+msgid "Custom URL"
+msgstr ""
+
+msgctxt "#30026"
+msgid "Stations by country"
+msgstr ""
+
+msgctxt "#30027"
+msgid "Stations by state"
+msgstr ""
+
+msgctxt "#30028"
+msgid "Stations by language"
+msgstr ""
+
+msgctxt "#30029"
+msgid "Stations by tag"
+msgstr ""
+
+msgctxt "#30030"
+msgid "Stations by codec"
+msgstr ""
+
+msgctxt "#30031"
+msgid "All stations"
+msgstr ""
+
+msgctxt "#30032"
+msgid "Search by name"
+msgstr ""
+
+msgctxt "#30033"
+msgid "Search by tags"
+msgstr ""
+
+msgctxt "#30034"
+msgid "{0} stations"
+msgstr ""
+
+msgctxt "#30035"
+msgid "{0} total stations"
+msgstr ""
+
+msgctxt "#30036"
+msgid "Enter station name"
+msgstr ""
+
+msgctxt "#30037"
+msgid "Enter comma-separated tags"
+msgstr ""
+
+msgctxt "#30038"
+msgid "Enter stream URL"
+msgstr ""
+
+msgctxt "#30039"
+msgid "Voted for station"
+msgstr ""
+
+msgctxt "#30040"
+msgid "Voted successfully"
+msgstr ""
+
+msgctxt "#30041"
+msgid "Voting error"
+msgstr ""
+
+msgctxt "#30042"
+msgid "Voting failed: {0}"
+msgstr ""
+
+msgctxt "#30043"
+msgid "Station saved"
+msgstr ""
+
+msgctxt "#30044"
+msgid "Saved successfully"
+msgstr ""
+
+msgctxt "#30045"
+msgid "Station removed"
+msgstr ""
+
+msgctxt "#30046"
+msgid "Removed successfully"
+msgstr ""
+
+msgctxt "#30047"
+msgid "Not connected to server"
+msgstr ""
+
+msgctxt "#30048"
+msgid "requests.get({0}) returned status code {1}"
+msgstr ""
+
+msgctxt "#30049"
+msgid "Could not connect to any of radio-browser.info servers"
+msgstr ""

@@ -1,5 +1,6 @@
 import xbmcgui
 from resources.lib import utils, saved_stations
+from resources.lib.locale import localize_string as _
 
 
 def directory_item(label, mode, **kwargs):
@@ -12,9 +13,10 @@ def directory_item(label, mode, **kwargs):
 
 def next_page_item(response, mode, current_page, **kwargs):
     if len(response) == 50:
-        list_item = xbmcgui.ListItem("Next Page")
+        list_item = xbmcgui.ListItem(_("Next page"))
         list_item.setInfo(
-            "music", {"title": "Next Page", "genre": "Page %i" % (current_page + 2)}
+            "music",
+            {"title": _("Next page"), "genre": _("Page {0}").format(current_page + 2)},
         )
         query = {"mode": mode, "page": current_page + 1}
         query.update(kwargs)
@@ -26,11 +28,13 @@ def station_item(station, number):
     resolved = isinstance(station, dict)
 
     if resolved:
-        votes = ["[B]%i votes[/B]" % station["votes"]]
+        votes = [_("[B]{0} votes[/B]").format(station["votes"])]
 
+        # TODO: localize language
         language = station["language"].split(",")
         language = [i.title() for i in language]
 
+        # TODO: localize state and country
         location = [station["state"], station["country"]]
         tags = station["tags"].split(",")
 
@@ -38,7 +42,7 @@ def station_item(station, number):
         genre = ", ".join(cleaned_tags)
 
         if station["lastcheckok"] == 0:
-            genre = "[B]Offline![/B] " + genre
+            genre = _("[B]Offline![/B]") + " " + genre
 
         list_item = xbmcgui.ListItem(station["name"], genre)
     else:
@@ -74,7 +78,7 @@ def station_item(station, number):
         if not saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
             context_menu_items.append(
                 (
-                    "Add to Saved Stations",
+                    _("Add to saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url(
                         {
@@ -87,7 +91,7 @@ def station_item(station, number):
         else:
             context_menu_items.append(
                 (
-                    "Remove from Saved Stations",
+                    _("Remove from saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url(
                         {
@@ -99,7 +103,7 @@ def station_item(station, number):
             )
         context_menu_items.append(
             (
-                "Vote for Station",
+                _("Vote for station"),
                 "RunPlugin(%s)"
                 % utils.build_url({"mode": "vote", "uuid": station["stationuuid"]}),
             )
@@ -116,7 +120,7 @@ def station_item(station, number):
         if not saved_stations.is_in_saved_stations(station, "url"):
             context_menu_items.append(
                 (
-                    "Add to Saved Stations",
+                    _("Add to saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url({"mode": "saved_station_add", "url": station}),
                 )
@@ -124,7 +128,7 @@ def station_item(station, number):
         else:
             context_menu_items.append(
                 (
-                    "Remove from Saved Stations",
+                    _("Remove from saved stations"),
                     "RunPlugin(%s)"
                     % utils.build_url({"mode": "saved_station_remove", "url": station}),
                 )
@@ -140,46 +144,46 @@ def sort_menu(mode, **kwargs):
 
     query = {"orderby": "votes", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Most Voted First", mode, **query))
+    menu_list.append(directory_item(_("Most voted first"), mode, **query))
 
     query = {"orderby": "votes", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Least Voted First", mode, **query))
+    menu_list.append(directory_item(_("Least voted first"), mode, **query))
 
     query = {"orderby": "clickcount", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Most Listeners First", mode, **query))
+    menu_list.append(directory_item(_("Most listeners first"), mode, **query))
 
     query = {"orderby": "clickcount", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Least Listeners First", mode, **query))
+    menu_list.append(directory_item(_("Least listeners first"), mode, **query))
 
     query = {"orderby": "name", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("A-Z", mode, **query))
+    menu_list.append(directory_item(_("A-Z"), mode, **query))
 
     query = {"orderby": "name", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Z-A", mode, **query))
+    menu_list.append(directory_item(_("Z-A"), mode, **query))
 
     query = {"orderby": "bitrate", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Highest Bitrate First", mode, **query))
+    menu_list.append(directory_item(_("Highest bitrate first"), mode, **query))
 
     query = {"orderby": "bitrate", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Lowest/Undefined Bitrate First", mode, **query))
-
-    query = {"orderby": "changetimestamp", "reverse": "false"}
-    query.update(kwargs)
-    menu_list.append(directory_item("Oldest Change First", mode, **query))
+    menu_list.append(directory_item(_("Lowest/undefined bitrate first"), mode, **query))
 
     query = {"orderby": "changetimestamp", "reverse": "true"}
     query.update(kwargs)
-    menu_list.append(directory_item("Newest Change First", mode, **query))
+    menu_list.append(directory_item(_("Newest change first"), mode, **query))
+
+    query = {"orderby": "changetimestamp", "reverse": "false"}
+    query.update(kwargs)
+    menu_list.append(directory_item(_("Oldest change first"), mode, **query))
 
     query = {"orderby": "random", "reverse": "false"}
     query.update(kwargs)
-    menu_list.append(directory_item("Random", mode, **query))
+    menu_list.append(directory_item(_("Random"), mode, **query))
 
     return menu_list
