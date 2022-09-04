@@ -15,7 +15,8 @@ def next_page_item(response, mode, current_page, **kwargs):
     if len(response) == 50:
         list_item = xbmcgui.ListItem(_("Next page"))
         list_item.setInfo(
-            "music", {"title": _("Next page"), "genre": _("Page {0}").format(current_page + 2)}
+            "music",
+            {"title": _("Next page"), "genre": _("Page {0}").format(current_page + 2)},
         )
         query = {"mode": mode, "page": current_page + 1}
         query.update(kwargs)

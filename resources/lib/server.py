@@ -2,13 +2,15 @@ import socket
 import random
 import requests
 
+from resources.lib.locale import localize_string as _
+
 headers = {"User-Agent": "RadioBrowser2/0.9.0"}
 server_url = ""
 
 
 def get(path, params={}, **kwargs):
     if server_url == "":
-        raise ConnectionError("Not connected to server")
+        raise ConnectionError(_("Not connected to server"))
     return requests.get(
         server_url + path, headers=headers, params=params, timeout=5.0, **kwargs
     )
@@ -16,7 +18,7 @@ def get(path, params={}, **kwargs):
 
 def post(path, params={}, **kwargs):
     if server_url == "":
-        raise ConnectionError("Not connected to server")
+        raise ConnectionError(_("Not connected to server"))
     return requests.post(
         server_url + path, headers=headers, params=params, timeout=5.0, **kwargs
     )
@@ -38,7 +40,8 @@ def get_radiobrowser_base_urls():
 
 
 def get_appropriate_server():
-    # FIXME: if you remove the return below it will repeatedly try to connect to that server, after which it'll raise an exception
+    # FIXME: if you remove the return below it will repeatedly try to connect to
+    # FIXME: that server, after which it'll raise an exception
     # TODO: enable connecting to other servers
     return "de1.api.radio-browser.info"
     servers = get_radiobrowser_base_urls()
@@ -51,13 +54,13 @@ def get_appropriate_server():
                 return server_base
             else:
                 raise ConnectionError(
-                    "requests.get({0}) returned status code {{1}}".format(
+                    _("requests.get({0}) returned status code {{1}}").format(
                         uri, data.status_code
                     )
                 )
         except ConnectionError:
             continue
-    raise ConnectionError("Could not connect to any of radio-browser.info servers")
+    raise ConnectionError(_("Could not connect to any of radio-browser.info servers"))
 
 
 def connect():

@@ -144,9 +144,9 @@ def get_state_countries(addon_handle, page):
             "music",
             {
                 "title": category["name"],
-                "genre": _("{0} total stations").format(category[
-                    "stationcount"
-                ]),  # TODO: replace with state count if possible
+                "genre": _("{0} total stations").format(
+                    category["stationcount"]
+                ),  # TODO: replace with state count if possible
             },
         )
         url = utils.build_url({"mode": "states", "country": category["name"]})
@@ -393,7 +393,8 @@ def vote_for_station(uuid):
         )
     else:
         xbmcgui.Dialog().notification(
-            "RadioBrowser²", _("Voting for station failed: {0}").format(vote_result["message"])
+            "RadioBrowser²",
+            _("Voting for station failed: {0}").format(vote_result["message"]),
         )
 
 
