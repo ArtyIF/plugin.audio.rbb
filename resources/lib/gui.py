@@ -1,22 +1,11 @@
-import xbmcplugin
 import xbmcgui
 from resources.lib import utils, saved_stations
 from resources.lib.locale import localize_string as _
 
 
-def paging(addon_handle, title, current_page):
-    xbmcplugin.setPluginCategory(
-        addon_handle, title + " / " + _("Page {0}").format(current_page + 1)
-    )
-    return int(current_page)
-
-
-def directory_item(current_title, label, mode, **kwargs):
+def directory_item(label, mode, **kwargs):
     list_item = xbmcgui.ListItem(label)
-    query = {
-        "mode": mode,
-        "title": " / ".join([i for i in [current_title, label] if i]),
-    }
+    query = {"mode": mode}
     query.update(kwargs)
     url = utils.build_url(query)
     return (url, list_item, True)
