@@ -39,7 +39,7 @@ def get(
 
 
 def post(
-    path: str, params: Optional[dict[str, str]], **kwargs: dict
+    path: str, params: Optional[dict[str, str]] = None, **kwargs: dict
 ) -> requests.Response:
     """
     Sends a POST request to a selected RadioBrowser server.
