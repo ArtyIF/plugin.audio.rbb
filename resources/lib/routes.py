@@ -378,7 +378,7 @@ def open_custom_url(addon_handle):
         xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_saved_station_stations(addon_handle):
+def get_saved_stations(addon_handle):
     stations_list = saved_stations.get_saved_stations()
 
     xbmcplugin.addDirectoryItems(addon_handle, stations_list)

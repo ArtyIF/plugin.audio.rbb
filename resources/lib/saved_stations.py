@@ -20,11 +20,21 @@ Path(xbmcvfs.translatePath("special://profile/addon_data/plugin.audio.rbb")).mkd
 
 
 def update_saved_stations():
+    """Writes the new saved stations to the JSON file."""
     with open(SAVED_STATIONS_PATH, "w+", encoding="utf-8") as file:
         json.dump(saved_stations, file)
 
 
-def is_in_saved_stations(val, kind):
+def is_in_saved_stations(val: str, kind: str) -> bool:
+    """Checks if a specified station is in the saved stations dict.
+
+    Args:
+        val (str): Station UUID or stream URL, depending on `kind`.
+        kind (str): `"uuid"` or `"url"`.
+
+    Returns:
+        bool: `True` if the station is saved, else `False`.
+    """
     return {kind: val} in saved_stations
 
 
@@ -49,7 +59,12 @@ else:
             saved_stations = []
 
 
-def get_saved_stations():
+def get_saved_stations() -> list[tuple[str, xbmcgui.ListItem, bool]]:
+    """Creates a list of saved stations to be used with `xbmcplugin.addDirectoryItems`.
+
+    Returns:
+        list[tuple[str, xbmcgui.ListItem, bool]]: The list of saved stations.
+    """
     resolved_stations = []
     if len(saved_stations) > 0:
         saved_station_uuids = []
@@ -71,14 +86,26 @@ def get_saved_stations():
     return station_items
 
 
-def add_saved_station(val, kind):
+def add_saved_station(val: str, kind: str):
+    """Adds a new saved station and displays a notification.
+
+    Args:
+        val (str): Station UUID or stream URL, depending on `kind`.
+        kind (str): `"uuid"` or `"url"`.
+    """
     # TODO: add ability to name saved custom URL stations
     saved_stations.append({kind: val})
     update_saved_stations()
     xbmcgui.Dialog().notification(_("Station saved"), _("Saved successfully"))
 
 
-def remove_saved_station(val, kind):
+def remove_saved_station(val: str, kind: str):
+    """Removes a saved station and displays a notification.
+
+    Args:
+        val (str): Station UUID or stream URL, depending on `kind`.
+        kind (str): `"uuid"` or `"url"`.
+    """
     saved_stations.remove({kind: val})
     update_saved_stations()
     xbmcgui.Dialog().notification(_("Station removed"), _("Removed successfully"))

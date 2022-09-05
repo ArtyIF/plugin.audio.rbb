@@ -1,4 +1,8 @@
-"""A module that stores common localization functions."""
+"""
+A module that stores common localization functions.
+
+Doubles as a script to generate a `strings.po` file for en_gb, the default Kodi localization.
+"""
 import xbmc
 import xbmcaddon
 
@@ -66,7 +70,20 @@ LOCALIZED_STRINGS = {
 }
 
 
-def localize_context(str_id):
+def localize_context(str_id: int) -> str:
+    """
+    Gets a localized string from a `strctxt` ID.
+    It's recommended to use `localize_string` instead.
+
+    Args:
+        str_id (int): The string ID as defined by `strctxt` in the PO file.
+
+    Raises:
+        KeyError: Raised when a matching localized string could not have been found.
+
+    Returns:
+        str: The localized string.
+    """
     result = ""
     if 30000 <= str_id < 33000:
         result = ADDON.getLocalizedString(str_id)
@@ -77,7 +94,21 @@ def localize_context(str_id):
     return result
 
 
-def localize_string(unlocalized_string):
+def localize_string(unlocalized_string: str) -> str:
+    """
+    Gets a localized string from an unlocalized one, mapped from `LOCALIZED_STRINGS`.
+    Unlike `localize_context`, which raises `KeyError` when no matching localized
+    string could be found, this function returns a formatted warning string to let the
+    programmer know that there's no matching string in either the PO files or `LOCALIZED_STRINGS`.
+    Usually imported as `_`.
+
+    Args:
+        unlocalized_string (str): The unlocalized string.
+
+    Returns:
+        str: The localized string or a formatted warning string.
+    """
+
     try:
         return localize_context(
             list(LOCALIZED_STRINGS.keys())[
@@ -91,9 +122,6 @@ def localize_string(unlocalized_string):
 
 
 if __name__ == "__main__":
-    # This module also doubles as a script to generate the en_gb PO file
-    # It's not perfect, but it'll do
-
     print("Generating en_gb PO file...")
 
     PO_HEADER = [
@@ -125,10 +153,10 @@ if __name__ == "__main__":
             lines_to_write.append(f'msgctxt "#{k}"')
             lines_to_write.append(f'msgid "{v}"')
             lines_to_write.append('msgstr ""')
-            lines_to_write.append('')
+            lines_to_write.append("")
 
-    with open('strings.po', 'w+', encoding='utf-8') as file:
-        file.write('\n'.join(lines_to_write))
+    with open("strings.po", "w+", encoding="utf-8") as file:
+        file.write("\n".join(lines_to_write))
 
     print("Done! It should be where you are right now.")
     print("Check it for mistakes, then put it in:")

@@ -10,6 +10,7 @@ from resources.lib.locale import localize_string as _
 
 
 def main():
+    """The main function. Loads routes based on the `mode` argument passed to the program."""
     args = parse_qs(sys.argv[2][1:])
     mode = args.get("mode", None)
 
@@ -63,7 +64,7 @@ def main():
             addon_handle, args["kind"][0], args["search_text"][0]
         )
     elif mode[0] == "saved_stations":
-        routes.get_saved_station_stations(addon_handle)
+        routes.get_saved_stations(addon_handle)
     elif mode[0] == "saved_station_add":
         if args.get("uuid", None):
             saved_stations.add_saved_station(args["uuid"][0], "uuid")

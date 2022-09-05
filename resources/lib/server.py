@@ -1,6 +1,6 @@
 """A module that stores common server functions."""
 
-#import random
+# import random
 import socket
 
 import requests
@@ -11,7 +11,9 @@ HEADERS = {"User-Agent": "RadioBrowser2/1.0.0"}
 SERVER_URL = ""
 
 
-def get(path: str, params: dict[str, str] | None = None, **kwargs: dict) -> requests.Response:
+def get(
+    path: str, params: dict[str, str] | None = None, **kwargs: dict
+) -> requests.Response:
     """Sends a GET request to a selected RadioBrowser server.
 
     Args:
@@ -31,7 +33,9 @@ def get(path: str, params: dict[str, str] | None = None, **kwargs: dict) -> requ
     )
 
 
-def post(path: str, params: dict[str, str] | None = None, **kwargs: dict) -> requests.Response:
+def post(
+    path: str, params: dict[str, str] | None = None, **kwargs: dict
+) -> requests.Response:
     """Sends a POST request to a selected RadioBrowser server.
 
     Args:
