@@ -30,7 +30,19 @@ def directory_item(
 
 def next_page_item(
     response: str, mode: str, current_page: int, **kwargs: dict[str, str]
-) -> tuple[str, xbmcgui.ListItem, bool]:
+) -> tuple[str, xbmcgui.ListItem, bool] | None:
+    """
+    Creates an item that goes to the next page, if the list of stations is long enough.
+
+    Args:
+        response (str): The list of stations. Used to determine if this option is even necessary.
+        mode (str): The mode that is passed to the plugin. Used to find a matching route.
+        current_page (int): The current page number, 0 being the first one.
+        kwargs (dict[str, str]): The parameters passed to the plugin, then to the route.
+
+    Returns:
+        tuple[str, xbmcgui.ListItem, bool]: The tuple to be used with `xbmcgui.addDirectoryItems`.
+    """
     if len(response) == 50:
         list_item = xbmcgui.ListItem(_("Next page"))
         list_item.setInfo(
@@ -46,6 +58,16 @@ def next_page_item(
 def station_item(
     station: dict | str, number: str
 ) -> tuple[str, xbmcgui.ListItem, bool]:
+    """
+    Creates a list item that represents a station.
+
+    Args:
+        station (dict | str): The station dict or URL
+        number (str): The station's track number.
+
+    Returns:
+        tuple[str, xbmcgui.ListItem, bool]: The tuple to be used with `xbmcgui.addDirectoryItems`.
+    """
     resolved = isinstance(station, dict)
 
     if resolved:
@@ -97,37 +119,25 @@ def station_item(
     context_menu_items = []
     if resolved:
         if not saved_stations.is_in_saved_stations(station["stationuuid"], "uuid"):
+            saved_stations_url = utils.build_url(
+                {"mode": "saved_station_add", "uuid": station["stationuuid"]}
+            )
             context_menu_items.append(
-                (
-                    _("Add to saved stations"),
-                    "RunPlugin(%s)"
-                    % utils.build_url(
-                        {
-                            "mode": "saved_station_add",
-                            "uuid": station["stationuuid"],
-                        }
-                    ),
-                )
+                (_("Add to saved stations"), f"RunPlugin({saved_stations_url})")
             )
         else:
+            saved_stations_url = utils.build_url(
+                {"mode": "saved_station_remove", "uuid": station["stationuuid"]}
+            )
             context_menu_items.append(
-                (
-                    _("Remove from saved stations"),
-                    "RunPlugin(%s)"
-                    % utils.build_url(
-                        {
-                            "mode": "saved_station_remove",
-                            "uuid": station["stationuuid"],
-                        }
-                    ),
-                )
+                (_("Remove from saved stations"), f"RunPlugin({saved_stations_url})")
             )
+
+        vote_for_station_url = utils.build_url(
+            {"mode": "vote", "uuid": station["stationuuid"]}
+        )
         context_menu_items.append(
-            (
-                _("Vote for station"),
-                "RunPlugin(%s)"
-                % utils.build_url({"mode": "vote", "uuid": station["stationuuid"]}),
-            )
+            (_("Vote for station"), f"RunPlugin({vote_for_station_url})")
         )
 
         url = utils.build_url(
@@ -139,20 +149,18 @@ def station_item(
         )
     else:
         if not saved_stations.is_in_saved_stations(station, "url"):
+            saved_stations_url = utils.build_url(
+                {"mode": "saved_station_add", "url": station}
+            )
             context_menu_items.append(
-                (
-                    _("Add to saved stations"),
-                    "RunPlugin(%s)"
-                    % utils.build_url({"mode": "saved_station_add", "url": station}),
-                )
+                (_("Add to saved stations"), f"RunPlugin({saved_stations_url})")
             )
         else:
+            saved_stations_url = utils.build_url(
+                {"mode": "saved_station_remove", "url": station}
+            )
             context_menu_items.append(
-                (
-                    _("Remove from saved stations"),
-                    "RunPlugin(%s)"
-                    % utils.build_url({"mode": "saved_station_remove", "url": station}),
-                )
+                (_("Remove from saved stations"), f"RunPlugin({saved_stations_url})")
             )
         url = utils.build_url({"mode": "listen", "url": station})
 
@@ -163,6 +171,26 @@ def station_item(
 def sort_menu(
     mode: str, **kwargs: dict[str, str]
 ) -> list[tuple[str, xbmcgui.ListItem, bool]]:
+    """
+    Creates a menu to sort list items (usually stations) by:
+    * votes
+    * listeners
+    * alphabetically
+    * bitrate
+    * change
+    * randomly
+
+    The sorting is done on the server's side by passing the `orderby` and
+    `reverse` parameters to the query.
+
+    Args:
+        mode (str): The mode that is passed to the plugin. Used to find a matching route.
+        kwargs (dict[str, str]): The parameters passed to the plugin, then to the route.
+
+    Returns:
+        list[tuple[str, xbmcgui.ListItem, bool]]: A list to be passed to
+        `xbmcgui.addDirectoryItems`.
+    """
     menu_list = []
 
     query = {"orderby": "votes", "reverse": "true"}

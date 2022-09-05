@@ -26,7 +26,8 @@ def update_saved_stations():
 
 
 def is_in_saved_stations(val: str, kind: str) -> bool:
-    """Checks if a specified station is in the saved stations dict.
+    """
+    Checks if a specified station is in the saved stations dict.
 
     Args:
         val (str): Station UUID or stream URL, depending on `kind`.
@@ -60,7 +61,8 @@ else:
 
 
 def get_saved_stations() -> list[tuple[str, xbmcgui.ListItem, bool]]:
-    """Creates a list of saved stations to be used with `xbmcplugin.addDirectoryItems`.
+    """
+    Creates a list of saved stations to be used with `xbmcplugin.addDirectoryItems`.
 
     Returns:
         list[tuple[str, xbmcgui.ListItem, bool]]: The list of saved stations.
@@ -87,7 +89,8 @@ def get_saved_stations() -> list[tuple[str, xbmcgui.ListItem, bool]]:
 
 
 def add_saved_station(val: str, kind: str):
-    """Adds a new saved station and displays a notification.
+    """
+    Adds a new saved station and displays a notification.
 
     Args:
         val (str): Station UUID or stream URL, depending on `kind`.
@@ -100,7 +103,8 @@ def add_saved_station(val: str, kind: str):
 
 
 def remove_saved_station(val: str, kind: str):
-    """Removes a saved station and displays a notification.
+    """
+    Removes a saved station and displays a notification.
 
     Args:
         val (str): Station UUID or stream URL, depending on `kind`.
