@@ -8,7 +8,7 @@ from resources.lib import gui, saved_stations, server, utils
 from resources.lib.locale import localize_string as _
 
 
-def root(addon_handle):
+def root(addon_handle: int):
     menu_list = []
     menu_list.append(gui.directory_item(_("Saved stations"), "saved_stations"))
     menu_list.append(
@@ -35,8 +35,7 @@ def root(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_stations(addon_handle, kind, page, orderby, reverse):
-    page = int(page)
+def get_stations(addon_handle: int, kind: str, page: int, orderby: str, reverse: str):
     request_url = f"/stations/{kind}"
     if kind == "all":
         request_url = "/stations"
@@ -68,7 +67,7 @@ def get_stations(addon_handle, kind, page, orderby, reverse):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_stations_directory(addon_handle):
+def open_stations_directory(addon_handle: int):
     menu_list = []
     menu_list.append(gui.directory_item(_("Stations by country"), "countries"))
     menu_list.append(gui.directory_item(_("Stations by state"), "state_countries"))
@@ -81,7 +80,7 @@ def open_stations_directory(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_search_directory(addon_handle):
+def open_search_directory(addon_handle: int):
     menu_list = []
     menu_list.append(gui.directory_item(_("Search by name"), "search_by_name"))
     menu_list.append(gui.directory_item(_("Search by tags"), "search_by_tags"))
@@ -90,20 +89,19 @@ def open_search_directory(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_stations_sort_directory(addon_handle, kind):
+def open_stations_sort_directory(addon_handle: int, kind: str):
     menu_list = gui.sort_menu("stations", kind=kind)
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_search_sort_directory(addon_handle, kind, search_text):
+def open_search_sort_directory(addon_handle: int, kind: str, search_text: str):
     menu_list = gui.sort_menu("results", kind=kind, search_text=search_text)
     xbmcplugin.addDirectoryItems(addon_handle, menu_list)
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_countries(addon_handle, page):
-    page = int(page)
+def get_countries(addon_handle: int, page: int):
     response = server.get("/countries", {"offset": page * 50, "limit": 50}).json()
 
     countries_list = []
@@ -134,8 +132,7 @@ def get_countries(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_state_countries(addon_handle, page):
-    page = int(page)
+def get_state_countries(addon_handle: int, page: int):
     response = server.get("/countries", {"offset": page * 50, "limit": 50}).json()
 
     state_countries_list = []
@@ -162,8 +159,7 @@ def get_state_countries(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_states(addon_handle, country, page):
-    page = int(page)
+def get_states(addon_handle: int, country: str, page: int):
     response = server.get(
         f"/states/{country}/",
         {
@@ -200,8 +196,7 @@ def get_states(addon_handle, country, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_languages(addon_handle, page):
-    page = int(page)
+def get_languages(addon_handle: int, page: int):
     response = server.get(
         "/languages",
         {
@@ -236,8 +231,7 @@ def get_languages(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_tags(addon_handle, page):
-    page = int(page)
+def get_tags(addon_handle: int, page: int):
     response = server.get(
         "/tags",
         {
@@ -272,8 +266,7 @@ def get_tags(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_codecs(addon_handle, page):
-    page = int(page)
+def get_codecs(addon_handle: int, page: int):
     response = server.get(
         "/codecs",
         {
@@ -308,8 +301,14 @@ def get_codecs(addon_handle, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
-    page = int(page)
+def perform_search(
+    addon_handle: int,
+    kind: str,
+    search_text: str,
+    page: int,
+    orderby: str,
+    reverse: str,
+):
     response = server.get(
         "/stations/search",
         {
@@ -345,7 +344,7 @@ def perform_search(addon_handle, kind, search_text, orderby, reverse, page):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def open_search_by_name(addon_handle):
+def open_search_by_name(addon_handle: int):
     keyboard = xbmc.Keyboard()
     keyboard.setHeading(_("Enter station name"))
     keyboard.doModal()
@@ -353,7 +352,7 @@ def open_search_by_name(addon_handle):
         open_search_sort_directory(addon_handle, "name", keyboard.getText())
 
 
-def open_search_by_tags(addon_handle):
+def open_search_by_tags(addon_handle: int):
     keyboard = xbmc.Keyboard()
     keyboard.setHeading(_("Enter comma-separated tags"))
     keyboard.doModal()
@@ -365,7 +364,7 @@ def open_search_by_tags(addon_handle):
         )
 
 
-def open_custom_url(addon_handle):
+def open_custom_url(addon_handle: int):
     keyboard = xbmc.Keyboard()
     keyboard.setHeading(_("Enter stream URL"))
     keyboard.doModal()
@@ -378,7 +377,7 @@ def open_custom_url(addon_handle):
         xbmcplugin.endOfDirectory(addon_handle)
 
 
-def get_saved_stations(addon_handle):
+def get_saved_stations(addon_handle: int):
     stations_list = saved_stations.get_saved_stations()
 
     xbmcplugin.addDirectoryItems(addon_handle, stations_list)
@@ -386,7 +385,7 @@ def get_saved_stations(addon_handle):
     xbmcplugin.endOfDirectory(addon_handle)
 
 
-def vote_for_station(uuid):
+def vote_for_station(uuid: str):
     vote_result = server.post("/vote/" + uuid).json()
 
     if vote_result["ok"]:
@@ -398,7 +397,7 @@ def vote_for_station(uuid):
         )
 
 
-def play(addon_handle, path, uuid):
+def play(addon_handle: int, path: str, uuid: str):
     list_item = xbmcgui.ListItem(path=path)
     if len(uuid) > 0:
         click_counter_result = server.post("/url/" + uuid).json()

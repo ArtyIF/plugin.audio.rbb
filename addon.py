@@ -22,7 +22,7 @@ def main():
         routes.get_stations(
             addon_handle,
             args["kind"][0],
-            args.get("page", [0])[0],
+            int(args.get("page", [0])[0]),
             args.get("orderby", ["votes"])[0],
             args.get("reverse", ["true"])[0],
         )
@@ -34,24 +34,24 @@ def main():
         routes.open_stations_sort_directory(addon_handle, args["kind"][0])
     elif mode[0] == "countries":
         server.connect()
-        routes.get_countries(addon_handle, args.get("page", [0])[0])
+        routes.get_countries(addon_handle, int(args.get("page", [0])[0]))
     elif mode[0] == "state_countries":
         server.connect()
-        routes.get_state_countries(addon_handle, args.get("page", [0])[0])
+        routes.get_state_countries(addon_handle, int(args.get("page", [0])[0]))
     elif mode[0] == "states":
         server.connect()
         routes.get_states(
-            addon_handle, args.get("country", [""])[0], args.get("page", [0])[0]
+            addon_handle, args.get("country", [""])[0], int(args.get("page", [0])[0])
         )
     elif mode[0] == "languages":
         server.connect()
-        routes.get_languages(addon_handle, args.get("page", [0])[0])
+        routes.get_languages(addon_handle, int(args.get("page", [0])[0]))
     elif mode[0] == "tags":
         server.connect()
-        routes.get_tags(addon_handle, args.get("page", [0])[0])
+        routes.get_tags(addon_handle, int(args.get("page", [0])[0]))
     elif mode[0] == "codecs":
         server.connect()
-        routes.get_codecs(addon_handle, args.get("page", [0])[0])
+        routes.get_codecs(addon_handle, int(args.get("page", [0])[0]))
     elif mode[0] == "listen":
         server.connect()
         routes.play(addon_handle, args["url"][0], args.get("uuid", [""])[0])
@@ -86,9 +86,9 @@ def main():
             addon_handle,
             args.get("kind", ["name"])[0],
             args["search_text"][0],
+            int(args.get("page", [0])[0]),
             args.get("orderby", ["votes"])[0],
             args.get("reverse", ["true"])[0],
-            args.get("page", [0])[0],
         )
     else:
         notif = xbmcgui.Dialog()
