@@ -25,8 +25,8 @@ This plugin is still in an early stage. Here's what it can do and what's planned
 - [x] Search stations by name and tags
 - [x] Add/remove stations to/from saved stations
 - [x] Vote for stations
-- [ ] Localization:
-- - [ ] Of the main interface
+- [x] Localization:
+- - [x] Of the main interface
 - - [ ] Of locations and countries
 - - [ ] Of tags, if possible
 
