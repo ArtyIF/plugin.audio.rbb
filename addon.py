@@ -11,6 +11,7 @@ from resources.lib.locale import localize_string as _
 
 def main():
     """The main function. Loads routes based on the `mode` argument passed to the program."""
+    addon_handle = int(sys.argv[1])
     args = parse_qs(sys.argv[2][1:])
     mode = args.get("mode", None)
 
@@ -41,7 +42,9 @@ def main():
     elif mode[0] == "states":
         server.connect()
         routes.get_states(
-            addon_handle, args.get("country", [""])[0], int(args.get("page", [0])[0])
+            addon_handle,
+            args.get("country", [""])[0],
+            int(args.get("page", [0])[0]),
         )
     elif mode[0] == "languages":
         server.connect()
@@ -102,5 +105,4 @@ def main():
 
 
 if __name__ == "__main__":
-    addon_handle = int(sys.argv[1])
     main()
