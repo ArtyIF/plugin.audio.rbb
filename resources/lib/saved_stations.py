@@ -1,5 +1,5 @@
 """A module that stores functions for working with saved stations."""
-
+# TODO: refactor into a class
 import json
 import os
 from pathlib import Path

@@ -1,5 +1,6 @@
 """A module that stores common GUI functions."""
 
+from typing import Optional, Union
 import xbmcgui
 
 from resources.lib import saved_stations, utils
@@ -30,7 +31,7 @@ def directory_item(
 
 def next_page_item(
     response: str, mode: str, current_page: int, **kwargs: dict[str, str]
-) -> tuple[str, xbmcgui.ListItem, bool] | None:
+) -> Optional[tuple[str, xbmcgui.ListItem, bool]]:
     """
     Creates an item that goes to the next page, if the list of stations is long enough.
 
@@ -41,7 +42,8 @@ def next_page_item(
         kwargs (dict[str, str]): The parameters passed to the plugin, then to the route.
 
     Returns:
-        tuple[str, xbmcgui.ListItem, bool]: The tuple to be used with `xbmcgui.addDirectoryItems`.
+        (tuple[str, xbmcgui.ListItem, bool] | None), optional: The tuple to be used
+        with `xbmcgui.addDirectoryItems`.
     """
     if len(response) == 50:
         list_item = xbmcgui.ListItem(_("Next page"))
@@ -56,13 +58,13 @@ def next_page_item(
 
 
 def station_item(
-    station: dict | str, number: str
+    station: Union[dict, str], number: str
 ) -> tuple[str, xbmcgui.ListItem, bool]:
     """
     Creates a list item that represents a station.
 
     Args:
-        station (dict | str): The station dict or URL
+        station (Union[dict, str]): The station dict or URL
         number (str): The station's track number.
 
     Returns:

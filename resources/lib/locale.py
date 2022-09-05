@@ -3,6 +3,7 @@ A module that stores common localization functions.
 
 Doubles as a script to generate a `strings.po` file for en_gb, the default Kodi localization.
 """
+# TODO: refactor into a class
 import xbmc
 import xbmcaddon
 
