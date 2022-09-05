@@ -125,5 +125,5 @@ def connect():
     global SERVER_URL
     try:
         SERVER_URL = f"https://{get_appropriate_server()}/json"
-    except ConnectionError:
-        xbmcgui.Dialog().notification("Connection error", "Put a message here later") # TODO: LOCALIZE THIS
+    except ConnectionError as exc:
+        xbmcgui.Dialog().notification(_("Couldn't connect"), exc)
