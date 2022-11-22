@@ -1,6 +1,8 @@
 # RadioBrowser²
 *A browser for RadioBrowser*
 
+# This project is no longer maintained
+
 **RadioBrowser²** (Radio Browser Browser, or Radio Browser Squared) is a music add-on to browse the radio station list on [radio-browser.info](https://www.radio-browser.info/).
 
 ## Progress
